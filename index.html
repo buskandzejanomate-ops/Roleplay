@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GeoRoleplay — Career Portal</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- Firebase SDK for Google Sign-In -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <style>
 :root {
   --gold: #c9973a;
@@ -961,6 +964,41 @@ body::after {
 #ai-send:hover { background: var(--gold-light); }
 #ai-send:disabled { background: var(--border); color: var(--text-dim); cursor: not-allowed; }
 
+.btn-google {
+  background: #fff;
+  color: #3c4043;
+  border: 1px solid #dadce0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: uppercase;
+}
+.btn-google:hover { background: #f8f9fa; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+.btn-google svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+.firebase-setup-note {
+  background: rgba(201,151,58,0.08);
+  border: 1px solid var(--border-gold);
+  padding: 12px 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--gold-dim);
+  margin-top: 10px;
+  line-height: 1.6;
+  display: none;
+}
+.firebase-setup-note.show { display: block; }
+.firebase-setup-note a { color: var(--gold); }
+
 /* ── RESPONSIVE ────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .site-header { padding: 16px 20px; }
@@ -1041,6 +1079,17 @@ body::after {
       <div id="tab-login">
         <h2>Welcome Back</h2>
         <p>Sign in to manage your applications.</p>
+
+        <button class="btn-google" onclick="doGoogleSignIn()">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+          Continue with Google
+        </button>
+        <div class="firebase-setup-note" id="google-note-login">
+          ⚠ Google Sign-In needs Firebase setup.<br>
+          See instructions below the form, or use username/password instead.
+        </div>
+
+        <div class="form-divider">or sign in with username</div>
         <div class="form-group">
           <label>Minecraft Username</label>
           <input type="text" id="login-username" placeholder="YourMinecraftName">
@@ -1051,7 +1100,7 @@ body::after {
           <input type="password" id="login-password" placeholder="••••••••">
         </div>
         <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="doLogin()">SIGN IN →</button>
-        <div class="form-divider">or</div>
+        <div class="form-divider">new here?</div>
         <button class="btn btn-ghost" style="width:100%;justify-content:center;" onclick="switchTab('register')">Create an account</button>
       </div>
 
@@ -1059,6 +1108,17 @@ body::after {
       <div id="tab-register" style="display:none;">
         <h2>Join GeoRoleplay</h2>
         <p>Create your applicant account to get started.</p>
+
+        <button class="btn-google" onclick="doGoogleSignIn()">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+          Register with Google
+        </button>
+        <div class="firebase-setup-note" id="google-note-reg">
+          ⚠ Google Sign-In needs a free Firebase project.<br>
+          See the setup guide below, or use the form instead.
+        </div>
+
+        <div class="form-divider">or register manually</div>
         <div class="form-group">
           <label>Minecraft Username</label>
           <input type="text" id="reg-username" placeholder="YourMinecraftName">
@@ -1715,119 +1775,177 @@ let aiOpen = false;
 let aiHistory = [];
 let aiTyping = false;
 
-const AI_SYSTEM = `You are GEO, the official AI career assistant for GeoRoleplay — a serious Minecraft 1.21.1 roleplay server on Paper with a custom jobs plugin.
+// ── FIREBASE / GOOGLE AUTH ─────────────────────────────────────
+// SETUP (free, 5 minutes):
+// 1. Go to https://console.firebase.google.com
+// 2. Create project → Add Web App → copy config below
+// 3. Authentication → Sign-in method → Enable "Google"
+// 4. Replace "YOUR_..." values below with your real config
+const FIREBASE_CONFIG = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
 
-Personality: professional, helpful, slightly formal but warm. Speak like a knowledgeable HR advisor. Be concise — max 3-4 sentences unless the user asks for detail. Use ** for bold on important words.
+let firebaseReady = false;
+let firebaseAuth = null;
 
-The server has 6 jobs players apply for on this website:
-1. **Police Officer** ($150/salary) — Patrol, enforce laws, respond to emergencies. Hard application.
-2. **Doctor / Medic** ($140/salary) — Clinic, triage patients, brew medicines. Hard application.
-3. **Mechanic** ($120/salary) — Repair items, craft tools, maintain infrastructure. Medium.
-4. **Chef / Cook** ($100/salary) — Run the restaurant, cook food. Medium.
-5. **Taxi Driver** ($110/salary) — Transport players safely. Medium.
-6. **Lumberjack** ($90/salary) — Chop trees, replant forests, supply wood. Medium.
+try {
+  if (typeof firebase !== "undefined" && FIREBASE_CONFIG.apiKey !== "YOUR_API_KEY") {
+    firebase.initializeApp(FIREBASE_CONFIG);
+    firebaseAuth = firebase.auth();
+    firebaseReady = true;
+    firebaseAuth.onAuthStateChanged(user => {
+      if (user) {
+        const name = user.displayName || user.email.split("@")[0] || "Player";
+        currentUser = { username: name, email: user.email, googleUser: true };
+        updateAuthUI();
+        showScreen("screen-jobs");
+      }
+    });
+  }
+} catch(e) { console.log("Firebase not configured:", e.message); }
 
-Jobs plugin: Paper 1.21.1, needs Vault + economy plugin (EssentialsX). Salary paid every 30 minutes. Bonus pay for job-related actions (e.g. lumberjack gets paid per log, police per hostile mob kill). Players join via /job join <name> or job center signs.
+async function doGoogleSignIn() {
+  if (!firebaseReady) {
+    document.getElementById("google-note-login").classList.add("show");
+    document.getElementById("google-note-reg").classList.add("show");
+    return;
+  }
+  try {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    await firebaseAuth.signInWithPopup(provider);
+  } catch(e) {
+    alert("Google Sign-In failed: " + (e.message || "Unknown error"));
+  }
+}
 
-Application tips:
-- Written answers need genuine thought and detail (2+ sentences minimum)
-- Multiple choice has one clearly correct ethical answer
-- Police and Doctor are hardest — ethical dilemmas and scenario questions
-- Reviewers look for roleplay maturity, not Minecraft skill
-- Be honest, specific, and think like a real professional
+// ── AI ────────────────────────────────────────────────────────
+const AI_SYSTEM = `You are GEO, the official AI career assistant for GeoRoleplay — a serious Minecraft 1.21.1 roleplay server. Be concise, professional and helpful. Use ** for bold. Max 3-4 sentences unless asked for detail.
+Jobs: Police($150,Hard), Doctor($140,Hard), Mechanic($120,Med), Chef($100,Med), TaxiDriver($110,Med), Lumberjack($90,Med).
+Salary every 30min. Action bonuses per job. Plugin needs Vault+EssentialsX. Applications test roleplay maturity not Minecraft skill.`;
 
-If asked about unrelated topics, politely redirect. Never invent server rules you don't know.`;
-
-const QUICK_CHIPS = ['Which job pays most?','How hard is Police?','Tips for my application?','How does salary work?','Which job fits me?'];
+const QUICK_CHIPS = ["Which job pays most?","How hard is Police?","Tips for my application?","How does salary work?","Which job fits me?"];
 
 function toggleAI() {
   aiOpen = !aiOpen;
-  document.getElementById('ai-window').classList.toggle('open', aiOpen);
+  document.getElementById("ai-window").classList.toggle("open", aiOpen);
   if (aiOpen && aiHistory.length === 0) {
     setTimeout(() => {
-      addAIMsg('ai', 'Welcome to **GeoRoleplay**! 👋 I\'m **GEO**, your career assistant. I can help you choose the right job, prepare your application, or answer anything about the server. What would you like to know?');
+      addAIMsg("ai", "Welcome to **GeoRoleplay**! I am **GEO**, your career assistant. I can help you choose the right job, prepare your application, or answer anything about the server. What would you like to know?");
       renderChips(QUICK_CHIPS);
     }, 200);
   }
-  if (aiOpen) setTimeout(() => document.getElementById('ai-input').focus(), 300);
+  if (aiOpen) setTimeout(() => document.getElementById("ai-input").focus(), 300);
 }
 
 function renderChips(chips) {
-  document.getElementById('ai-chips').innerHTML = chips.map(c =>
-    `<button class="ai-chip" onclick="chipSend('${c.replace(/'/g,"\\\'")}')">${c}</button>`).join('');
+  document.getElementById("ai-chips").innerHTML = chips.map(c =>
+    "<button class=\"ai-chip\" onclick=\"chipSend(this.dataset.t)\" data-t=\"" + c + "\">" + c + "</button>").join("");
 }
 
 function chipSend(text) {
-  document.getElementById('ai-chips').innerHTML = '';
+  document.getElementById("ai-chips").innerHTML = "";
   sendAIMessage(text);
 }
 
 function addAIMsg(role, text) {
-  const container = document.getElementById('ai-messages');
-  const div = document.createElement('div');
-  div.className = 'ai-msg ' + role;
-  const formatted = text.replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--gold-light)">$1</strong>').replace(/\n/g, '<br>');
-  div.innerHTML = `<div class="ai-msg-label">${role === 'ai' ? 'GEO Assistant' : (currentUser?.username || 'You')}</div><div class="ai-msg-bubble">${formatted}</div>`;
+  const container = document.getElementById("ai-messages");
+  const div = document.createElement("div");
+  div.className = "ai-msg " + role;
+  const formatted = text.replace(/\*\*(.*?)\*\*/g, "<strong style=\"color:var(--gold-light)\">$1</strong>").replace(/\n/g, "<br>");
+  div.innerHTML = "<div class=\"ai-msg-label\">" + (role === "ai" ? "GEO Assistant" : (currentUser && currentUser.username ? currentUser.username : "You")) + "</div><div class=\"ai-msg-bubble\">" + formatted + "</div>";
   container.appendChild(div);
   container.scrollTop = container.scrollHeight;
 }
 
 function showTyping() {
-  const c = document.getElementById('ai-messages');
-  const d = document.createElement('div');
-  d.className = 'ai-msg ai'; d.id = 'ai-typing-ind';
-  d.innerHTML = '<div class="ai-msg-label">GEO Assistant</div><div class="ai-typing"><span></span><span></span><span></span></div>';
+  const c = document.getElementById("ai-messages");
+  const d = document.createElement("div");
+  d.className = "ai-msg ai"; d.id = "ai-typing-ind";
+  d.innerHTML = "<div class=\"ai-msg-label\">GEO Assistant</div><div class=\"ai-typing\"><span></span><span></span><span></span></div>";
   c.appendChild(d); c.scrollTop = c.scrollHeight;
 }
-function removeTyping() { document.getElementById('ai-typing-ind')?.remove(); }
+function removeTyping() { const el = document.getElementById("ai-typing-ind"); if (el) el.remove(); }
 
 async function sendAI() {
-  const inp = document.getElementById('ai-input');
+  const inp = document.getElementById("ai-input");
   const text = inp.value.trim();
   if (!text || aiTyping) return;
-  inp.value = '';
+  inp.value = "";
   sendAIMessage(text);
 }
 
 async function sendAIMessage(text) {
   if (aiTyping) return;
-  document.getElementById('ai-chips').innerHTML = '';
-  addAIMsg('user', text);
-  aiHistory.push({ role: 'user', content: text });
+  document.getElementById("ai-chips").innerHTML = "";
+  addAIMsg("user", text);
+  aiHistory.push({ role: "user", content: text });
   aiTyping = true;
-  document.getElementById('ai-send').disabled = true;
+  document.getElementById("ai-send").disabled = true;
   showTyping();
 
+  let reply = null;
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        system: AI_SYSTEM,
-        messages: aiHistory
-      })
+    const proxyUrl = "https://corsproxy.io/?" + encodeURIComponent("https://api.anthropic.com/v1/messages");
+    const res = await fetch(proxyUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ model: "claude-sonnet-4-20250514", max_tokens: 800, system: AI_SYSTEM, messages: aiHistory })
     });
-    const data = await res.json();
-    removeTyping();
-    const reply = data.content?.[0]?.text || "Sorry, I couldn't get a response. Please try again!";
-    aiHistory.push({ role: 'assistant', content: reply });
-    addAIMsg('ai', reply);
+    if (res.ok) {
+      const data = await res.json();
+      reply = data.content && data.content[0] ? data.content[0].text : null;
+    }
+  } catch(e) {}
 
-    const lower = text.toLowerCase();
-    if (lower.includes('police')) renderChips(['Police application tips','Police vs Doctor?','Police bonuses?']);
-    else if (lower.includes('doctor') || lower.includes('medic')) renderChips(['Doctor tips','Is Doctor hard?','Doctor vs Police?']);
-    else if (lower.includes('salary') || lower.includes('pay')) renderChips(['Highest paying job?','What are action bonuses?','How often is salary?']);
-    else if (lower.includes('tip') || lower.includes('help') || lower.includes('applic')) renderChips(['What do staff look for?','How to write good answers?','Common mistakes?']);
-    else renderChips(['Tell me about Police','Tell me about Doctor','Which job fits me?']);
-  } catch(e) {
-    removeTyping();
-    addAIMsg('ai', "I'm having trouble connecting right now. Please try again in a moment!");
-  }
+  removeTyping();
+  if (!reply) reply = getOfflineReply(text);
+  aiHistory.push({ role: "assistant", content: reply });
+  addAIMsg("ai", reply);
+
+  const lower = text.toLowerCase();
+  if (lower.includes("police")) renderChips(["Police tips","Police vs Doctor?","Police bonuses?"]);
+  else if (lower.includes("doctor") || lower.includes("medic")) renderChips(["Doctor tips","Is Doctor hard?","Doctor vs Police?"]);
+  else if (lower.includes("salary") || lower.includes("pay") || lower.includes("earn")) renderChips(["Highest paying job?","Action bonuses?","How often is salary?"]);
+  else if (lower.includes("tip") || lower.includes("help") || lower.includes("applic")) renderChips(["What do staff look for?","How to write good answers?","Common mistakes?"]);
+  else renderChips(["Tell me about Police","Tell me about Doctor","Which job fits me?"]);
+
   aiTyping = false;
-  document.getElementById('ai-send').disabled = false;
-  document.getElementById('ai-input').focus();
+  document.getElementById("ai-send").disabled = false;
+  document.getElementById("ai-input").focus();
+}
+
+function getOfflineReply(text) {
+  const t = text.toLowerCase();
+  if (t.includes("police") && (t.includes("tip") || t.includes("applic") || t.includes("help")))
+    return "For the **Police application**, focus on ethical judgment above all. In scenario questions walk through decisions step by step, always showing **de-escalation before force**. The Use of Force section is hardest — think like a real officer, not a fighter.";
+  if (t.includes("police"))
+    return "**Police Officer** earns **$150/salary** — the highest on the server. Hard difficulty application with ethics, use of force and a full emergency scenario. You also earn **+$10** bonus per hostile mob defeated while on duty.";
+  if (t.includes("doctor") || t.includes("medic"))
+    return "**Doctor / Medic** earns **$140/salary** with a Hard application. Expect tough ethics dilemmas like patient confidentiality vs. public safety. The scenario test is a mass casualty event. Earn **+$20** each time you heal another player.";
+  if (t.includes("mechanic"))
+    return "**Mechanic** earns **$120/salary** with a Medium application. Questions cover technical knowledge (anvil repairs, crafting) and work ethics. You earn **+$15** per repair and **+$3** per crafted item.";
+  if (t.includes("chef") || t.includes("cook"))
+    return "**Chef / Cook** earns **$100/salary**. The application asks you to design a roleplay menu and tests handling of difficult customers. You earn **+$5** for every food item cooked in a furnace.";
+  if (t.includes("taxi"))
+    return "**Taxi Driver** earns **$110/salary** and **+$15** per passenger transported. The application focuses on passenger safety, civic duty and professionalism under pressure.";
+  if (t.includes("lumberjack") || t.includes("lumber"))
+    return "**Lumberjack** earns **$90/salary** — the most beginner-friendly job. You earn **+$2 per log** chopped. The application emphasizes sustainability: you must replant trees and never harvest protected zones.";
+  if (t.includes("salary") || t.includes("pay") || t.includes("money") || t.includes("earn"))
+    return "Salaries paid every **30 minutes** online. Ranking: **Police $150 → Doctor $140 → Mechanic $120 → Taxi $110 → Chef $100 → Lumberjack $90**. Each job also has **action bonuses** paid instantly for doing job-specific tasks.";
+  if (t.includes("hard") || t.includes("difficult") || t.includes("easy"))
+    return "**Police** and **Doctor** are Hard-tier with 9-10 questions including scenario responses and ethical dilemmas. **Mechanic, Chef, Taxi** and **Lumberjack** are Medium — still need thoughtful written answers but fewer scenario questions.";
+  if (t.includes("which") || t.includes("best") || t.includes("recommend") || t.includes("fit") || t.includes("suit"))
+    return "Depends on your style! **Combat & authority** → Police. **Helping others** → Doctor. **Building & crafting** → Mechanic. **Cooking & social RP** → Chef. **Transport & exploration** → Taxi Driver. **Resource gathering** → Lumberjack. Which sounds most like you?";
+  if (t.includes("google") || t.includes("sign in") || t.includes("firebase"))
+    return "**Google Sign-In** needs a free Firebase project. Go to **console.firebase.google.com**, create a project, enable Google Auth, and paste your config into the HTML file. The username/password login works immediately without any extra setup!";
+  if (t.includes("tip") || t.includes("advice") || t.includes("pass"))
+    return "Top tips: **1)** Write 3+ sentences for open questions — short answers are rejected. **2)** For multiple choice, think what a real professional would do ethically. **3)** Be specific and honest. **4)** Reviewers want **roleplay maturity**, not Minecraft hours.";
+  return "I am **GEO**, your GeoRoleplay career assistant. I can answer questions about any of the 6 jobs, application tips, salaries, or how the server plugin works. What would you like to know?";
 }
 </script>
 </body>
