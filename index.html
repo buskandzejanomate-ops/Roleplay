@@ -3,1950 +3,599 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GeoRoleplay — Career Portal</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<!-- Firebase SDK for Google Sign-In -->
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<title>Georgian Donut SMP – Crate Keys</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Exo+2:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --gold: #c9973a;
-  --gold-light: #e8b84b;
-  --gold-dim: #7a5a1e;
-  --bg: #080604;
-  --bg2: #0e0b07;
-  --bg3: #161009;
-  --surface: #120e08;
-  --border: #2a1f0e;
-  --border-gold: #3d2e10;
-  --text: #e8dcc8;
-  --text-dim: #7a6a50;
-  --text-mid: #b09870;
-  --red: #c0392b;
-  --green: #27ae60;
-}
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-html { scroll-behavior: smooth; }
-
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Crimson Pro', Georgia, serif;
-  font-size: 18px;
-  line-height: 1.6;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-/* Noise texture overlay */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 9999;
-  opacity: 0.4;
-}
-
-/* Scanlines */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
-  pointer-events: none;
-  z-index: 9998;
-}
-
-/* ── SCREEN SYSTEM ─────────────────────────────────────────── */
-.screen { display: none; min-height: 100vh; }
-.screen.active { display: flex; flex-direction: column; }
-
-/* ── HEADER ────────────────────────────────────────────────── */
-.site-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 48px;
-  border-bottom: 1px solid var(--border-gold);
-  background: var(--bg);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.logo {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 28px;
-  letter-spacing: 4px;
-  color: var(--gold);
-  text-decoration: none;
-}
-.logo span { color: var(--text-dim); font-size: 14px; letter-spacing: 2px; display: block; margin-top: -4px; font-family: 'JetBrains Mono', monospace; font-weight: 400; }
-
-.header-nav { display: flex; gap: 32px; align-items: center; }
-.header-nav a {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 2px;
-  color: var(--text-dim);
-  text-decoration: none;
-  text-transform: uppercase;
-  transition: color 0.2s;
-  cursor: pointer;
-}
-.header-nav a:hover { color: var(--gold); }
-
-#user-status {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--gold);
-  letter-spacing: 1px;
-  display: none;
-}
-#user-status.visible { display: block; }
-
-/* ── HERO ──────────────────────────────────────────────────── */
-#screen-home {
-  background:
-    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(201,151,58,0.08) 0%, transparent 70%),
-    var(--bg);
-}
-
-.hero {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 80px 48px;
-  position: relative;
-}
-
-.hero-tag {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 4px;
-  color: var(--gold-dim);
-  text-transform: uppercase;
-  margin-bottom: 24px;
-  animation: fadeUp 0.6s ease both;
-}
-
-.hero h1 {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(60px, 10vw, 120px);
-  letter-spacing: 8px;
-  line-height: 0.9;
-  color: var(--text);
-  animation: fadeUp 0.6s 0.1s ease both;
-}
-.hero h1 em {
-  color: var(--gold);
-  font-style: normal;
-  display: block;
-}
-
-.hero-sub {
-  font-family: 'Crimson Pro', serif;
-  font-size: 20px;
-  font-style: italic;
-  color: var(--text-mid);
-  margin-top: 24px;
-  max-width: 500px;
-  animation: fadeUp 0.6s 0.2s ease both;
-}
-
-.hero-divider {
-  width: 80px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  margin: 40px auto;
-  animation: fadeUp 0.6s 0.3s ease both;
-}
-
-.hero-btns {
-  display: flex;
-  gap: 16px;
-  animation: fadeUp 0.6s 0.4s ease both;
-}
-
-/* ── BUTTONS ───────────────────────────────────────────────── */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 14px 32px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s;
-  text-decoration: none;
-}
-
-.btn-primary {
-  background: var(--gold);
-  color: var(--bg);
-  font-weight: 700;
-}
-.btn-primary:hover {
-  background: var(--gold-light);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(201,151,58,0.3);
-}
-
-.btn-outline {
-  background: transparent;
-  color: var(--gold);
-  border: 1px solid var(--gold-dim);
-}
-.btn-outline:hover {
-  border-color: var(--gold);
-  background: rgba(201,151,58,0.05);
-  transform: translateY(-2px);
-}
-
-.btn-ghost {
-  background: transparent;
-  color: var(--text-dim);
-  border: 1px solid var(--border);
-}
-.btn-ghost:hover {
-  color: var(--text);
-  border-color: var(--text-dim);
-}
-
-.btn-danger {
-  background: var(--red);
-  color: #fff;
-  font-weight: 700;
-}
-.btn-danger:hover { background: #e74c3c; transform: translateY(-2px); }
-
-/* ── JOBS GRID ─────────────────────────────────────────────── */
-#screen-jobs {
-  background:
-    radial-gradient(ellipse 60% 40% at 80% 20%, rgba(201,151,58,0.04) 0%, transparent 60%),
-    var(--bg);
-}
-
-.section-wrap {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 60px 48px;
-  flex: 1;
-}
-
-.section-title {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 48px;
-  letter-spacing: 4px;
-  color: var(--text);
-  margin-bottom: 8px;
-}
-.section-title span { color: var(--gold); }
-.section-sub {
-  font-style: italic;
-  color: var(--text-dim);
-  margin-bottom: 48px;
-  font-size: 16px;
-}
-
-.jobs-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 24px;
-}
-
-.job-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  padding: 32px;
-  cursor: pointer;
-  transition: all 0.25s;
-  position: relative;
-  overflow: hidden;
-}
-
-.job-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 3px; height: 0;
-  background: var(--gold);
-  transition: height 0.3s ease;
-}
-
-.job-card:hover {
-  border-color: var(--border-gold);
-  background: var(--bg3);
-  transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.5);
-}
-.job-card:hover::before { height: 100%; }
-
-.job-card .job-icon {
-  font-size: 36px;
-  margin-bottom: 16px;
-  display: block;
-}
-
-.job-card h3 {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 26px;
-  letter-spacing: 2px;
-  color: var(--gold);
-  margin-bottom: 8px;
-}
-
-.job-card .job-desc {
-  font-size: 15px;
-  color: var(--text-dim);
-  margin-bottom: 20px;
-  font-style: italic;
-  line-height: 1.5;
-}
-
-.job-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 16px;
-  border-top: 1px solid var(--border);
-}
-
-.job-salary {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 13px;
-  color: var(--green);
-  font-weight: 500;
-}
-
-.job-difficulty {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 1px;
-  padding: 4px 10px;
-  border: 1px solid;
-  text-transform: uppercase;
-}
-.diff-hard { color: var(--red); border-color: rgba(192,57,43,0.4); }
-.diff-medium { color: var(--gold); border-color: rgba(201,151,58,0.4); }
-
-/* ── SIGN IN SCREEN ────────────────────────────────────────── */
-#screen-signin {
-  background:
-    radial-gradient(ellipse 50% 50% at 30% 50%, rgba(201,151,58,0.06) 0%, transparent 60%),
-    var(--bg);
-  align-items: center;
-  justify-content: center;
-}
-
-.auth-box {
-  width: 100%;
-  max-width: 480px;
-  padding: 48px;
-  background: var(--surface);
-  border: 1px solid var(--border-gold);
-  margin: 60px auto;
-  animation: fadeUp 0.5s ease both;
-}
-
-.auth-box h2 {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 36px;
-  letter-spacing: 3px;
-  color: var(--gold);
-  margin-bottom: 4px;
-}
-.auth-box p {
-  font-style: italic;
-  color: var(--text-dim);
-  font-size: 15px;
-  margin-bottom: 36px;
-}
-
-.form-group {
-  margin-bottom: 24px;
-}
-
-.form-group label {
-  display: block;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--text-dim);
-  margin-bottom: 8px;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea {
-  width: 100%;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  color: var(--text);
-  padding: 12px 16px;
-  font-family: 'Crimson Pro', serif;
-  font-size: 17px;
-  outline: none;
-  transition: border-color 0.2s;
-  -webkit-appearance: none;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-  border-color: var(--gold-dim);
-  background: var(--bg2);
-}
-
-.form-group input::placeholder,
-.form-group textarea::placeholder {
-  color: var(--text-dim);
-  font-style: italic;
-}
-
-.form-group textarea {
-  resize: vertical;
-  min-height: 120px;
-  line-height: 1.6;
-}
-
-.form-group select option {
-  background: var(--bg);
-}
-
-.form-error {
-  color: var(--red);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  margin-top: 6px;
-  display: none;
-}
-.form-error.show { display: block; }
-
-.form-divider {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin: 24px 0;
-  color: var(--text-dim);
-  font-size: 13px;
-  font-style: italic;
-}
-.form-divider::before, .form-divider::after {
-  content: '';
-  flex: 1;
-  height: 1px;
-  background: var(--border);
-}
-
-/* ── APPLICATION SCREEN ────────────────────────────────────── */
-#screen-apply {
-  background: var(--bg);
-}
-
-.apply-layout {
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  min-height: calc(100vh - 73px);
-}
-
-.apply-sidebar {
-  background: var(--surface);
-  border-right: 1px solid var(--border);
-  padding: 40px 28px;
-  position: sticky;
-  top: 73px;
-  height: calc(100vh - 73px);
-  overflow-y: auto;
-}
-
-.apply-sidebar h3 {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 22px;
-  letter-spacing: 2px;
-  color: var(--gold);
-  margin-bottom: 4px;
-}
-.apply-sidebar .sidebar-job-name {
-  font-style: italic;
-  color: var(--text-dim);
-  font-size: 14px;
-  margin-bottom: 32px;
-}
-
-.progress-steps {
-  list-style: none;
-}
-.progress-steps li {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--border);
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--text-dim);
-  letter-spacing: 1px;
-  transition: color 0.2s;
-}
-.progress-steps li.active { color: var(--gold); }
-.progress-steps li.done { color: var(--green); }
-
-.step-num {
-  width: 24px; height: 24px;
-  border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 10px;
-  flex-shrink: 0;
-  transition: all 0.2s;
-}
-.progress-steps li.active .step-num { border-color: var(--gold); color: var(--gold); background: rgba(201,151,58,0.1); }
-.progress-steps li.done .step-num { border-color: var(--green); color: var(--green); background: rgba(39,174,96,0.1); }
-
-.apply-main {
-  padding: 48px;
-  max-width: 720px;
-}
-
-.apply-section {
-  display: none;
-  animation: fadeUp 0.4s ease both;
-}
-.apply-section.active { display: block; }
-
-.apply-section h2 {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 38px;
-  letter-spacing: 3px;
-  color: var(--text);
-  margin-bottom: 4px;
-}
-.apply-section h2 span { color: var(--gold); }
-.apply-section > p {
-  font-style: italic;
-  color: var(--text-dim);
-  margin-bottom: 40px;
-  font-size: 16px;
-}
-
-.question-block {
-  margin-bottom: 36px;
-  padding-bottom: 36px;
-  border-bottom: 1px solid var(--border);
-  animation: fadeUp 0.4s ease both;
-}
-.question-block:last-of-type { border-bottom: none; }
-
-.q-number {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 2px;
-  color: var(--gold-dim);
-  text-transform: uppercase;
-  margin-bottom: 8px;
-}
-.q-text {
-  font-size: 19px;
-  color: var(--text);
-  font-weight: 600;
-  margin-bottom: 6px;
-  line-height: 1.4;
-}
-.q-hint {
-  font-size: 14px;
-  font-style: italic;
-  color: var(--text-dim);
-  margin-bottom: 16px;
-}
-
-/* Radio / checkbox custom styles */
-.q-options { display: flex; flex-direction: column; gap: 10px; }
-.q-option {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
-  border: 1px solid var(--border);
-  cursor: pointer;
-  transition: all 0.2s;
-  font-size: 16px;
-}
-.q-option:hover { border-color: var(--border-gold); background: var(--bg3); }
-.q-option input { display: none; }
-.q-option.selected { border-color: var(--gold); background: rgba(201,151,58,0.06); color: var(--gold); }
-.q-dot {
-  width: 16px; height: 16px;
-  border: 1px solid var(--text-dim);
-  border-radius: 50%;
-  flex-shrink: 0;
-  transition: all 0.2s;
-  display: flex; align-items: center; justify-content: center;
-}
-.q-option.selected .q-dot {
-  border-color: var(--gold);
-  background: var(--gold);
-}
-.q-option.selected .q-dot::after {
-  content: '';
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--bg);
-}
-
-/* Scenario text box */
-.scenario-box {
-  background: var(--bg3);
-  border-left: 3px solid var(--gold);
-  padding: 20px 24px;
-  margin-bottom: 20px;
-  font-style: italic;
-  color: var(--text-mid);
-  font-size: 16px;
-  line-height: 1.6;
-}
-
-.apply-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 48px;
-  padding-top: 32px;
-  border-top: 1px solid var(--border);
-}
-
-.progress-bar-wrap {
-  flex: 1;
-  height: 3px;
-  background: var(--border);
-  margin: 0 24px;
-  overflow: hidden;
-}
-.progress-bar-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--gold-dim), var(--gold));
-  transition: width 0.4s ease;
-}
-
-/* ── SUCCESS SCREEN ────────────────────────────────────────── */
-#screen-success {
-  align-items: center;
-  justify-content: center;
-  background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(39,174,96,0.06) 0%, transparent 70%), var(--bg);
-}
-
-.success-box {
-  text-align: center;
-  padding: 80px 60px;
-  max-width: 600px;
-  animation: fadeUp 0.6s ease both;
-}
-
-.success-icon {
-  font-size: 64px;
-  margin-bottom: 24px;
-  display: block;
-  animation: pulse 2s ease infinite;
-}
-
-.success-box h2 {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 56px;
-  letter-spacing: 4px;
-  color: var(--green);
-  margin-bottom: 8px;
-}
-
-.success-box p {
-  color: var(--text-mid);
-  font-size: 18px;
-  font-style: italic;
-  margin-bottom: 32px;
-}
-
-.application-id {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 13px;
-  color: var(--gold);
-  background: var(--surface);
-  border: 1px solid var(--border-gold);
-  padding: 12px 24px;
-  display: inline-block;
-  margin-bottom: 40px;
-  letter-spacing: 2px;
-}
-
-/* ── ANIMATIONS ────────────────────────────────────────────── */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-}
-
-/* ── MISC ──────────────────────────────────────────────────── */
-.tag {
-  display: inline-block;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 1px;
-  padding: 3px 8px;
-  border: 1px solid var(--border-gold);
-  color: var(--gold-dim);
-  text-transform: uppercase;
-  margin-right: 6px;
-  margin-bottom: 6px;
-}
-
-.alert {
-  padding: 14px 20px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  letter-spacing: 1px;
-  margin-bottom: 24px;
-  border-left: 3px solid;
-}
-.alert-warning { border-color: var(--gold); background: rgba(201,151,58,0.08); color: var(--gold); }
-.alert-error { border-color: var(--red); background: rgba(192,57,43,0.08); color: #e74c3c; }
-
-/* Scrollbar */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--border-gold); }
-::-webkit-scrollbar-thumb:hover { background: var(--gold-dim); }
-
-/* ── AI CHAT ASSISTANT ─────────────────────────────────────── */
-#ai-bubble {
-  position: fixed;
-  bottom: 28px;
-  right: 28px;
-  z-index: 10000;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 12px;
-}
-
-#ai-toggle {
-  width: 58px;
-  height: 58px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--gold-dim), var(--gold));
-  border: 2px solid var(--gold);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  box-shadow: 0 4px 24px rgba(201,151,58,0.4);
-  transition: all 0.2s;
-  flex-shrink: 0;
-  position: relative;
-}
-#ai-toggle:hover {
-  transform: scale(1.08);
-  box-shadow: 0 6px 32px rgba(201,151,58,0.6);
-}
-#ai-toggle .ai-ping {
-  position: absolute;
-  top: -3px; right: -3px;
-  width: 14px; height: 14px;
-  background: var(--green);
-  border-radius: 50%;
-  border: 2px solid var(--bg);
-  animation: pingPulse 2s ease infinite;
-}
-@keyframes pingPulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.3); opacity: 0.7; }
-}
-
-#ai-window {
-  width: 370px;
-  height: 520px;
-  background: var(--surface);
-  border: 1px solid var(--border-gold);
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 0 1px rgba(201,151,58,0.1);
-  transform-origin: bottom right;
-  transform: scale(0.8);
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
-}
-#ai-window.open {
-  transform: scale(1);
-  opacity: 1;
-  pointer-events: all;
-}
-
-#ai-header {
-  padding: 16px 18px;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: var(--bg3);
-  flex-shrink: 0;
-}
-.ai-avatar {
-  width: 36px; height: 36px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--gold-dim), var(--gold));
-  display: flex; align-items: center; justify-content: center;
-  font-size: 16px;
-  flex-shrink: 0;
-}
-.ai-header-info { flex: 1; }
-.ai-name {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--gold);
-  letter-spacing: 1px;
-}
-.ai-status {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  color: var(--green);
-  letter-spacing: 1px;
-}
-#ai-close {
-  background: none;
-  border: none;
-  color: var(--text-dim);
-  cursor: pointer;
-  font-size: 18px;
-  padding: 4px;
-  line-height: 1;
-  transition: color 0.2s;
-}
-#ai-close:hover { color: var(--text); }
-
-#ai-messages {
-  flex: 1;
-  overflow-y: auto;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  scroll-behavior: smooth;
-}
-#ai-messages::-webkit-scrollbar { width: 4px; }
-#ai-messages::-webkit-scrollbar-thumb { background: var(--border-gold); }
-
-.ai-msg {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  animation: fadeUp 0.3s ease both;
-}
-.ai-msg.ai { align-items: flex-start; }
-.ai-msg.user { align-items: flex-end; }
-
-.ai-msg-bubble {
-  max-width: 85%;
-  padding: 10px 14px;
-  font-size: 14px;
-  line-height: 1.55;
-  font-family: 'Crimson Pro', serif;
-}
-.ai-msg.ai .ai-msg-bubble {
-  background: var(--bg3);
-  border: 1px solid var(--border);
-  color: var(--text);
-  border-radius: 0 8px 8px 8px;
-}
-.ai-msg.user .ai-msg-bubble {
-  background: rgba(201,151,58,0.12);
-  border: 1px solid var(--border-gold);
-  color: var(--text);
-  border-radius: 8px 0 8px 8px;
-}
-.ai-msg-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
-  letter-spacing: 1px;
-  color: var(--text-dim);
-  text-transform: uppercase;
-  padding: 0 4px;
-}
-
-.ai-typing {
-  display: flex;
-  gap: 4px;
-  align-items: center;
-  padding: 12px 14px;
-  background: var(--bg3);
-  border: 1px solid var(--border);
-  width: fit-content;
-  border-radius: 0 8px 8px 8px;
-}
-.ai-typing span {
-  width: 6px; height: 6px;
-  background: var(--gold-dim);
-  border-radius: 50%;
-  animation: typingDot 1.2s ease infinite;
-}
-.ai-typing span:nth-child(2) { animation-delay: 0.2s; }
-.ai-typing span:nth-child(3) { animation-delay: 0.4s; }
-@keyframes typingDot {
-  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
-  30% { transform: translateY(-4px); opacity: 1; }
-}
-
-/* Quick reply chips */
-.ai-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  padding: 0 16px 8px;
-}
-.ai-chip {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 1px;
-  padding: 5px 10px;
-  border: 1px solid var(--border-gold);
-  color: var(--gold-dim);
-  cursor: pointer;
-  background: transparent;
-  text-transform: uppercase;
-  transition: all 0.15s;
-}
-.ai-chip:hover { border-color: var(--gold); color: var(--gold); background: rgba(201,151,58,0.05); }
-
-#ai-input-row {
-  display: flex;
-  gap: 0;
-  border-top: 1px solid var(--border);
-  flex-shrink: 0;
-}
-#ai-input {
-  flex: 1;
-  background: var(--bg);
-  border: none;
-  color: var(--text);
-  padding: 14px 16px;
-  font-family: 'Crimson Pro', serif;
-  font-size: 15px;
-  outline: none;
-  resize: none;
-  height: 50px;
-}
-#ai-input::placeholder { color: var(--text-dim); font-style: italic; }
-#ai-send {
-  background: var(--gold);
-  border: none;
-  color: var(--bg);
-  padding: 0 18px;
-  cursor: pointer;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 16px;
-  font-weight: 700;
-  transition: background 0.2s;
-  flex-shrink: 0;
-}
-#ai-send:hover { background: var(--gold-light); }
-#ai-send:disabled { background: var(--border); color: var(--text-dim); cursor: not-allowed; }
-
-.btn-google {
-  background: #fff;
-  color: #3c4043;
-  border: 1px solid #dadce0;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
-  letter-spacing: 1px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  width: 100%;
-  padding: 12px;
-  cursor: pointer;
-  transition: all 0.2s;
-  text-transform: uppercase;
-}
-.btn-google:hover { background: #f8f9fa; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
-.btn-google svg { width: 18px; height: 18px; flex-shrink: 0; }
-
-.firebase-setup-note {
-  background: rgba(201,151,58,0.08);
-  border: 1px solid var(--border-gold);
-  padding: 12px 16px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 1px;
-  color: var(--gold-dim);
-  margin-top: 10px;
-  line-height: 1.6;
-  display: none;
-}
-.firebase-setup-note.show { display: block; }
-.firebase-setup-note a { color: var(--gold); }
-
-/* ── RESPONSIVE ────────────────────────────────────────────── */
-@media (max-width: 768px) {
-  .site-header { padding: 16px 20px; }
-  .hero { padding: 60px 20px; }
-  .hero-btns { flex-direction: column; }
-  .section-wrap { padding: 40px 20px; }
-  .apply-layout { grid-template-columns: 1fr; }
-  .apply-sidebar { display: none; }
-  .apply-main { padding: 24px 20px; }
-  .auth-box { padding: 32px 24px; margin: 20px; }
-}
+  :root {
+    --gold: #f5c842;
+    --crimson: #c0392b;
+    --amethyst: #9b59b6;
+    --prime: #00e5ff;
+    --bg: #0a0a12;
+    --surface: #12121f;
+    --surface2: #1a1a2e;
+    --text: #e8e8f0;
+    --muted: #8888aa;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Exo 2', sans-serif;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ── STARFIELD ── */
+  #stars {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background: radial-gradient(ellipse at 20% 30%, #0d0d25 0%, #000008 100%);
+    overflow: hidden;
+  }
+  .star {
+    position: absolute; border-radius: 50%;
+    background: #fff; opacity: 0;
+    animation: twinkle var(--dur) var(--del) infinite;
+  }
+  @keyframes twinkle {
+    0%,100%{opacity:0} 50%{opacity:var(--op)}
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: relative; z-index: 10;
+    text-align: center;
+    padding: 80px 20px 60px;
+  }
+  .server-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #1a1a2e, #0d0d1a);
+    border: 1px solid rgba(245,200,66,0.3);
+    border-radius: 30px;
+    padding: 6px 20px;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+  h1 {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(2.2rem, 6vw, 4.5rem);
+    font-weight: 900;
+    line-height: 1.1;
+    background: linear-gradient(135deg, #f5c842 0%, #fff8dc 50%, #f5a623 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: none;
+    filter: drop-shadow(0 0 30px rgba(245,200,66,0.4));
+  }
+  .tagline {
+    margin-top: 14px;
+    color: var(--muted);
+    font-size: 1rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; justify-content: center; gap: 30px;
+    padding: 14px;
+    background: rgba(10,10,18,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  nav a {
+    color: var(--muted); text-decoration: none;
+    font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  nav a:hover { color: var(--gold); }
+
+  /* ── SECTION ── */
+  section { position: relative; z-index: 5; padding: 80px 20px; max-width: 1200px; margin: 0 auto; }
+  .section-title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.6rem;
+    text-align: center;
+    margin-bottom: 50px;
+    color: var(--gold);
+    letter-spacing: 2px;
+  }
+
+  /* ── KEYS GRID ── */
+  .keys-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 24px;
+  }
+
+  .key-card {
+    position: relative;
+    background: var(--surface);
+    border-radius: 20px;
+    padding: 32px 24px;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.07);
+    transition: transform 0.3s, box-shadow 0.3s;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .key-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    border-radius: 20px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .key-card:hover { transform: translateY(-6px); }
+  .key-card:hover::before { opacity: 1; }
+
+  /* Golden */
+  .key-card.golden { border-color: rgba(245,200,66,0.3); }
+  .key-card.golden::before { background: radial-gradient(circle at 50% 0%, rgba(245,200,66,0.12), transparent 70%); }
+  .key-card.golden:hover { box-shadow: 0 20px 60px rgba(245,200,66,0.2); }
+  .key-card.golden .key-icon { color: var(--gold); filter: drop-shadow(0 0 12px rgba(245,200,66,0.8)); }
+
+  /* Crimson */
+  .key-card.crimson { border-color: rgba(192,57,43,0.4); }
+  .key-card.crimson::before { background: radial-gradient(circle at 50% 0%, rgba(192,57,43,0.15), transparent 70%); }
+  .key-card.crimson:hover { box-shadow: 0 20px 60px rgba(192,57,43,0.25); }
+  .key-card.crimson .key-icon { color: #e74c3c; filter: drop-shadow(0 0 12px rgba(231,76,60,0.9)); }
+
+  /* Amethyst */
+  .key-card.amethyst { border-color: rgba(155,89,182,0.4); }
+  .key-card.amethyst::before { background: radial-gradient(circle at 50% 0%, rgba(155,89,182,0.15), transparent 70%); }
+  .key-card.amethyst:hover { box-shadow: 0 20px 60px rgba(155,89,182,0.25); }
+  .key-card.amethyst .key-icon { color: #b97de3; filter: drop-shadow(0 0 12px rgba(185,125,227,0.9)); }
+
+  /* Prime */
+  .key-card.prime { border-color: rgba(0,229,255,0.3); }
+  .key-card.prime::before { background: radial-gradient(circle at 50% 0%, rgba(0,229,255,0.12), transparent 70%); }
+  .key-card.prime:hover { box-shadow: 0 20px 60px rgba(0,229,255,0.2); }
+  .key-card.prime .key-icon { color: var(--prime); filter: drop-shadow(0 0 12px rgba(0,229,255,0.9)); }
+
+  .hot-badge {
+    position: absolute; top: 14px; right: 14px;
+    background: linear-gradient(135deg, #c0392b, #e74c3c);
+    color: #fff;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 20px;
+    animation: pulse-badge 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse-badge {
+    0%,100%{box-shadow:0 0 0 0 rgba(231,76,60,0.5)}
+    50%{box-shadow:0 0 0 8px rgba(231,76,60,0)}
+  }
+
+  .rare-badge {
+    position: absolute; top: 14px; left: 14px;
+    background: linear-gradient(135deg, #2c2c2c, #1a1a1a);
+    border: 1px solid rgba(245,200,66,0.4);
+    color: var(--gold);
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 4px 10px; border-radius: 20px;
+  }
+
+  .key-icon { font-size: 3rem; margin-bottom: 16px; display: block; }
+  .key-name {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .key-price {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .key-desc {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+
+  .golden .key-name { color: var(--gold); }
+  .crimson .key-name { color: #e74c3c; }
+  .amethyst .key-name { color: #b97de3; }
+  .prime .key-name { color: var(--prime); }
+
+  .golden .key-price { color: var(--gold); }
+  .crimson .key-price { color: #e74c3c; }
+  .amethyst .key-price { color: #b97de3; }
+  .prime .key-price { color: var(--prime); }
+
+  .buy-btn {
+    display: inline-block;
+    width: 100%;
+    padding: 12px 24px;
+    border-radius: 12px;
+    border: none;
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 0.15s, filter 0.15s;
+  }
+  .buy-btn:hover { transform: scale(1.04); filter: brightness(1.15); }
+  .golden .buy-btn { background: linear-gradient(135deg, #f5c842, #d4a017); color: #000; }
+  .crimson .buy-btn { background: linear-gradient(135deg, #c0392b, #922b21); color: #fff; }
+  .amethyst .buy-btn { background: linear-gradient(135deg, #9b59b6, #6c3483); color: #fff; }
+  .prime .buy-btn { background: linear-gradient(135deg, #00bcd4, #0097a7); color: #fff; }
+
+  /* ── WHEEL ── */
+  #wheel-section {
+    text-align: center;
+  }
+  .wheel-wrapper {
+    display: inline-block;
+    position: relative;
+  }
+  .wheel-container {
+    position: relative;
+    width: 340px; height: 340px;
+    margin: 0 auto 30px;
+  }
+  .wheel-pointer {
+    position: absolute; top: -18px; left: 50%;
+    transform: translateX(-50%);
+    width: 0; height: 0;
+    border-left: 14px solid transparent;
+    border-right: 14px solid transparent;
+    border-top: 28px solid var(--gold);
+    filter: drop-shadow(0 0 6px rgba(245,200,66,0.8));
+    z-index: 10;
+  }
+  canvas#wheel { border-radius: 50%; display: block; }
+
+  .wheel-info {
+    background: var(--surface2);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px;
+    padding: 20px 30px;
+    display: inline-block;
+    margin-bottom: 24px;
+    min-width: 260px;
+  }
+  .wheel-info p { font-size: 0.85rem; color: var(--muted); }
+  .wheel-info .countdown { font-size: 1.4rem; font-weight: 700; color: var(--gold); margin-top: 6px; font-family: 'Cinzel Decorative', serif; }
+
+  #spin-btn {
+    background: linear-gradient(135deg, var(--gold), #d4a017);
+    color: #000;
+    border: none;
+    padding: 16px 50px;
+    border-radius: 50px;
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: transform 0.15s, filter 0.15s;
+    box-shadow: 0 0 30px rgba(245,200,66,0.4);
+  }
+  #spin-btn:hover:not(:disabled) { transform: scale(1.05); filter: brightness(1.1); }
+  #spin-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .spin-result {
+    margin-top: 24px;
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 1.3rem;
+    min-height: 36px;
+    transition: all 0.3s;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative; z-index: 5;
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--muted);
+    font-size: 0.8rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+  footer span { color: var(--gold); }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(245,200,66,0.2), transparent);
+    margin: 0 40px;
+    position: relative; z-index: 5;
+  }
 </style>
 </head>
 <body>
 
-<!-- ══════════════════════════════════════════════════════════ -->
-<!--  SCREEN 1: HOME                                           -->
-<!-- ══════════════════════════════════════════════════════════ -->
-<div id="screen-home" class="screen active">
-  <header class="site-header">
-    <a class="logo" href="#" onclick="showScreen('screen-home')">
-      GEOROLEPLAY
-      <span>CAREER PORTAL</span>
-    </a>
-    <nav class="header-nav">
-      <a onclick="showScreen('screen-jobs')">Open Positions</a>
-      <a onclick="showScreen('screen-signin')">Sign In</a>
-      <span id="user-status">● <span id="user-display-name"></span></span>
-    </nav>
-  </header>
+<!-- Starfield -->
+<div id="stars"></div>
 
-  <div class="hero">
-    <div class="hero-tag">⬡ GeoRoleplay Server — Official Career Portal</div>
-    <h1>Build Your<em>Career</em></h1>
-    <p class="hero-sub">Apply for real-life roleplay jobs. Every position requires a formal application and thorough vetting.</p>
-    <div class="hero-divider"></div>
-    <div class="hero-btns">
-      <button class="btn btn-primary" onclick="showScreen('screen-jobs')">View Open Positions →</button>
-      <button class="btn btn-outline" onclick="showScreen('screen-signin')">Sign In / Register</button>
+<!-- Header -->
+<header>
+  <div class="server-badge">⚡ Minecraft SMP</div>
+  <h1>Georgian Donut</h1>
+  <p class="tagline">Unlock the treasures of the server</p>
+</header>
+
+<!-- Nav -->
+<nav>
+  <a href="#keys">🗝️ Keys</a>
+  <a href="#wheel-section">🎡 Spin Wheel</a>
+</nav>
+
+<!-- Keys -->
+<section id="keys">
+  <div class="section-title">🗝️ Crate Keys</div>
+  <div class="keys-grid">
+
+    <!-- Golden -->
+    <div class="key-card golden">
+      <span class="key-icon">🔑</span>
+      <div class="key-name">Golden Key</div>
+      <div class="key-price">2 ₾</div>
+      <div class="key-desc">Your entry into the crates. Common loot, solid rewards. Good chance for basic resources, tools & cosmetics.</div>
+      <button class="buy-btn">Buy Now</button>
     </div>
 
-    <div style="margin-top: 80px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 700px; text-align: center;">
-      <div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:42px;color:var(--gold);">6</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--text-dim);">OPEN POSITIONS</div>
-      </div>
-      <div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:42px;color:var(--gold);">4–7</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--text-dim);">QUESTIONS PER JOB</div>
-      </div>
-      <div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:42px;color:var(--gold);">RP</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--text-dim);">SERIOUS ROLEPLAY</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════════════════ -->
-<!--  SCREEN 2: SIGN IN / REGISTER                             -->
-<!-- ══════════════════════════════════════════════════════════ -->
-<div id="screen-signin" class="screen">
-  <header class="site-header">
-    <a class="logo" href="#" onclick="showScreen('screen-home')">GEOROLEPLAY <span>CAREER PORTAL</span></a>
-    <nav class="header-nav">
-      <a onclick="showScreen('screen-home')">← Back</a>
-    </nav>
-  </header>
-
-  <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:40px 20px;">
-    <div class="auth-box">
-      <div id="auth-tab-btns" style="display:flex;gap:0;margin-bottom:32px;border:1px solid var(--border);">
-        <button id="tab-login-btn" class="btn btn-primary" style="flex:1;padding:10px;" onclick="switchTab('login')">SIGN IN</button>
-        <button id="tab-reg-btn" class="btn btn-ghost" style="flex:1;padding:10px;" onclick="switchTab('register')">REGISTER</button>
-      </div>
-
-      <!-- LOGIN -->
-      <div id="tab-login">
-        <h2>Welcome Back</h2>
-        <p>Sign in to manage your applications.</p>
-
-        <button class="btn-google" onclick="doGoogleSignIn()">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
-          Continue with Google
-        </button>
-        <div class="firebase-setup-note" id="google-note-login">
-          ⚠ Google Sign-In needs Firebase setup.<br>
-          See instructions below the form, or use username/password instead.
-        </div>
-
-        <div class="form-divider">or sign in with username</div>
-        <div class="form-group">
-          <label>Minecraft Username</label>
-          <input type="text" id="login-username" placeholder="YourMinecraftName">
-          <div class="form-error" id="login-error">Invalid username or password.</div>
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input type="password" id="login-password" placeholder="••••••••">
-        </div>
-        <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="doLogin()">SIGN IN →</button>
-        <div class="form-divider">new here?</div>
-        <button class="btn btn-ghost" style="width:100%;justify-content:center;" onclick="switchTab('register')">Create an account</button>
-      </div>
-
-      <!-- REGISTER -->
-      <div id="tab-register" style="display:none;">
-        <h2>Join GeoRoleplay</h2>
-        <p>Create your applicant account to get started.</p>
-
-        <button class="btn-google" onclick="doGoogleSignIn()">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
-          Register with Google
-        </button>
-        <div class="firebase-setup-note" id="google-note-reg">
-          ⚠ Google Sign-In needs a free Firebase project.<br>
-          See the setup guide below, or use the form instead.
-        </div>
-
-        <div class="form-divider">or register manually</div>
-        <div class="form-group">
-          <label>Minecraft Username</label>
-          <input type="text" id="reg-username" placeholder="YourMinecraftName">
-          <div class="form-error" id="reg-error-user">Username already taken or invalid.</div>
-        </div>
-        <div class="form-group">
-          <label>Discord Tag</label>
-          <input type="text" id="reg-discord" placeholder="username#0000 or username">
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input type="password" id="reg-password" placeholder="Min. 6 characters">
-          <div class="form-error" id="reg-error-pass">Password must be at least 6 characters.</div>
-        </div>
-        <div class="form-group">
-          <label>Confirm Password</label>
-          <input type="password" id="reg-confirm" placeholder="Repeat password">
-          <div class="form-error" id="reg-error-confirm">Passwords do not match.</div>
-        </div>
-        <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="doRegister()">CREATE ACCOUNT →</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════════════════ -->
-<!--  SCREEN 3: JOBS LIST                                      -->
-<!-- ══════════════════════════════════════════════════════════ -->
-<div id="screen-jobs" class="screen">
-  <header class="site-header">
-    <a class="logo" href="#" onclick="showScreen('screen-home')">GEOROLEPLAY <span>CAREER PORTAL</span></a>
-    <nav class="header-nav">
-      <a onclick="showScreen('screen-home')">Home</a>
-      <a id="nav-signin-link" onclick="showScreen('screen-signin')">Sign In</a>
-      <span id="user-status2" style="display:none;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold);letter-spacing:1px;">● <span id="user-display-name2"></span></span>
-    </nav>
-  </header>
-
-  <div class="section-wrap">
-    <div class="section-title">Open <span>Positions</span></div>
-    <p class="section-sub">Select a role to begin your formal application. All positions require a completed questionnaire.</p>
-
-    <div id="not-logged-alert" class="alert alert-warning">
-      ⚠ You must be signed in to submit an application. <a href="#" onclick="showScreen('screen-signin')" style="color:var(--gold-light);text-decoration:underline;">Sign in here</a>
+    <!-- Crimson -->
+    <div class="key-card crimson">
+      <div class="hot-badge">🔥 Hot</div>
+      <span class="key-icon">🗝️</span>
+      <div class="key-name">Crimson Key</div>
+      <div class="key-price">3 ₾</div>
+      <div class="key-desc">Fan favourite. Boosted loot table with rare drops, enchanted gear and exclusive cosmetics.</div>
+      <button class="buy-btn">Buy Now</button>
     </div>
 
-    <div class="jobs-grid" id="jobs-grid"></div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════════════════ -->
-<!--  SCREEN 4: APPLICATION FORM                               -->
-<!-- ══════════════════════════════════════════════════════════ -->
-<div id="screen-apply" class="screen">
-  <header class="site-header">
-    <a class="logo" href="#" onclick="showScreen('screen-jobs')">GEOROLEPLAY <span>CAREER PORTAL</span></a>
-    <nav class="header-nav">
-      <a onclick="showScreen('screen-jobs')">← All Jobs</a>
-    </nav>
-  </header>
-
-  <div class="apply-layout">
-    <aside class="apply-sidebar">
-      <h3>APPLICATION</h3>
-      <div class="sidebar-job-name" id="sidebar-job-name">Position</div>
-      <ul class="progress-steps" id="progress-steps"></ul>
-      <div style="margin-top:32px;padding-top:24px;border-top:1px solid var(--border);">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text-dim);letter-spacing:1px;margin-bottom:8px;">APPLICANT</div>
-        <div id="sidebar-username" style="font-size:15px;color:var(--gold);font-style:italic;"></div>
-      </div>
-    </aside>
-
-    <div class="apply-main" id="apply-main"></div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════════════════ -->
-<!--  SCREEN 5: SUCCESS                                        -->
-<!-- ══════════════════════════════════════════════════════════ -->
-<div id="screen-success" class="screen">
-  <header class="site-header">
-    <a class="logo" href="#" onclick="showScreen('screen-home')">GEOROLEPLAY <span>CAREER PORTAL</span></a>
-  </header>
-  <div style="flex:1;display:flex;align-items:center;justify-content:center;">
-    <div class="success-box">
-      <span class="success-icon">✦</span>
-      <h2>Application Submitted</h2>
-      <p>Your application has been received and will be reviewed by the GeoRoleplay staff team. You will be notified via Discord.</p>
-      <div class="application-id" id="app-id">REF: GEO-000000</div>
-      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
-        <button class="btn btn-primary" onclick="showScreen('screen-jobs')">Apply for Another Job</button>
-        <button class="btn btn-outline" onclick="showScreen('screen-home')">Return Home</button>
-      </div>
+    <!-- Amethyst -->
+    <div class="key-card amethyst">
+      <span class="key-icon">💜</span>
+      <div class="key-name">Amethyst Key</div>
+      <div class="key-price">5 ₾</div>
+      <div class="key-desc">Premium tier. High chance for powerful gear, special ranks and magical items from the crate.</div>
+      <button class="buy-btn">Buy Now</button>
     </div>
+
+    <!-- Prime -->
+    <div class="key-card prime">
+      <div class="rare-badge">⭐ Ultra Rare</div>
+      <span class="key-icon">💠</span>
+      <div class="key-name">Prime Key</div>
+      <div class="key-price">6 ₾</div>
+      <div class="key-desc">The pinnacle. Exclusive top-tier loot impossible to get from any other key. True legends only.</div>
+      <button class="buy-btn">Buy Now</button>
+    </div>
+
   </div>
-</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- Rarity Info -->
+<section style="text-align:center; padding-top:40px; padding-bottom:40px;">
+  <p style="color:var(--muted); font-size:0.85rem; letter-spacing:1px; max-width:600px; margin:0 auto; line-height:1.8;">
+    🔒 <strong style="color:var(--text)">Prime & Amethyst Keys</strong> are intentionally rarer — they are the hardest keys to obtain organically. The server loot odds are:
+    <br><br>
+    <span style="color:var(--gold)">Golden</span> — Most common &nbsp;|&nbsp;
+    <span style="color:#e74c3c">Crimson</span> — Uncommon &nbsp;|&nbsp;
+    <span style="color:#b97de3">Amethyst</span> — Rare &nbsp;|&nbsp;
+    <span style="color:var(--prime)">Prime</span> — Ultra rare
+  </p>
+</section>
+
+<div class="divider"></div>
+
+<!-- Wheel -->
+<section id="wheel-section">
+  <div class="section-title">🎡 Free Spin Wheel</div>
+  <p style="text-align:center; color:var(--muted); margin-top:-30px; margin-bottom:40px; font-size:0.9rem;">Spin every <strong style="color:var(--gold)">2 days</strong> for a free key!</p>
+
+  <div style="text-align:center;">
+    <div class="wheel-info">
+      <p>Next free spin in</p>
+      <div class="countdown" id="countdown">—</div>
+    </div>
+    <br>
+    <div class="wheel-container">
+      <div class="wheel-pointer"></div>
+      <canvas id="wheel" width="340" height="340"></canvas>
+    </div>
+    <button id="spin-btn">✨ Spin the Wheel</button>
+    <div class="spin-result" id="spin-result"></div>
+  </div>
+</section>
+
+<footer>
+  &copy; 2025 <span>Georgian Donut SMP</span> — All rights reserved.
+</footer>
 
 <script>
-// ── STATE ─────────────────────────────────────────────────────
-let currentUser = null;
-let users = JSON.parse(localStorage.getItem('grp_users') || '{}');
-let applications = JSON.parse(localStorage.getItem('grp_apps') || '[]');
-let currentJob = null;
-let currentStep = 0;
-let answers = {};
+// ── STARS ──
+const starsDiv = document.getElementById('stars');
+for (let i = 0; i < 160; i++) {
+  const s = document.createElement('div');
+  s.className = 'star';
+  const size = Math.random() * 2.5 + 0.5;
+  s.style.cssText = `
+    width:${size}px; height:${size}px;
+    left:${Math.random()*100}%; top:${Math.random()*100}%;
+    --dur:${(Math.random()*4+2).toFixed(1)}s;
+    --del:${(Math.random()*6).toFixed(1)}s;
+    --op:${(Math.random()*0.7+0.2).toFixed(2)};
+  `;
+  starsDiv.appendChild(s);
+}
 
-// ── JOBS DATA ─────────────────────────────────────────────────
-const JOBS = [
-  {
-    id: 'police',
-    icon: '🚔',
-    name: 'Police Officer',
-    salary: '$150 / salary',
-    desc: 'Enforce the law, patrol the city, respond to emergencies and protect every citizen.',
-    difficulty: 'hard',
-    tags: ['Law Enforcement', 'Combat', 'Patrol'],
-    steps: ['Personal Info', 'Ethics & Law', 'Use of Force', 'Scenario'],
-    sections: [
-      {
-        title: 'Personal <span>Information</span>',
-        intro: 'Tell us about yourself and your background.',
-        questions: [
-          { type: 'text', q: 'How long have you been playing on GeoRoleplay, and do you have prior law enforcement roleplay experience?', hint: 'Be specific. "A while" is not acceptable.' },
-          { type: 'text', q: 'Describe a situation in Minecraft roleplay where you had to make a difficult decision under pressure. What did you do and what was the outcome?', hint: 'We are looking for composure, judgment and honesty.' },
-        ]
-      },
-      {
-        title: 'Ethics & <span>Law</span>',
-        intro: 'Law enforcement requires unwavering ethical judgment.',
-        questions: [
-          { type: 'radio', q: 'A fellow officer is accepting in-game money from a known criminal in exchange for ignoring their crimes. You witness this. What do you do?', options: ['Do nothing — he is my partner and I trust him.', 'Confront him privately and warn him to stop.', 'Immediately report it to the Chief of Police with evidence.', 'Keep quiet but watch him more closely.'], correct: 2, hint: 'There is only one correct answer.' },
-          { type: 'radio', q: 'You pull over a player for speeding. They claim to be the server owner\'s friend. How do you proceed?', options: ['Let them go with a warning — it\'s not worth the trouble.', 'Issue the fine/ticket the same as any other player.', 'Call your supervisor before deciding.', 'Let them go but record their name for later.'], correct: 1 },
-          { type: 'text', q: 'In your own words, explain the difference between lawful authority and abuse of power. Give a specific in-game example of each.', hint: 'Minimum 3 sentences. Vague answers will be rejected.' },
-        ]
-      },
-      {
-        title: 'Use of <span>Force</span>',
-        intro: 'Use of force is the most consequential decision an officer can make.',
-        questions: [
-          { type: 'radio', q: 'A player is verbally threatening you but has not drawn a weapon or attacked. What is the appropriate response?', options: ['Draw your weapon and warn them to back down.', 'Attempt to de-escalate verbally; use force only if they attack.', 'Immediately arrest them — verbal threats justify it.', 'Ignore them and walk away.'], correct: 1 },
-          { type: 'radio', q: 'During a pursuit, the suspect flees into a crowded civilian zone. You can catch them but it risks a collision with other players. You:', options: ['Continue the pursuit at full speed — the arrest is priority.', 'Slow down, keep visual, coordinate with backup to cut them off.', 'Give up entirely — it is too risky.', 'Use a weapon to stop them from a distance.'], correct: 1 },
-          { type: 'text', q: 'Describe your personal philosophy on when PvP (combat) is appropriate as a police officer. What factors determine whether force is justified?', hint: 'This reveals your maturity and suitability for the role.' },
-        ]
-      },
-      {
-        title: 'Final <span>Scenario</span>',
-        intro: 'Read the scenario carefully and answer thoughtfully.',
-        questions: [
-          { type: 'scenario', scenario: 'It is 2:00 AM server time. You receive a radio call: two players are reportedly robbing the city bank. When you arrive, one suspect is already in custody (held by another officer), but the second has taken a civilian player hostage at knifepoint and is demanding a vehicle and safe passage out of the city. Your sergeant is offline. You are the ranking officer on scene.', q: 'Walk us through your exact command decisions, step by step. What do you do first, second, third — and what is your goal throughout?', hint: 'There is no single right answer, but your process matters enormously.' },
-        ]
-      }
-    ]
-  },
-  {
-    id: 'doctor',
-    icon: '🩺',
-    name: 'Doctor / Medic',
-    salary: '$140 / salary',
-    desc: 'Operate the city clinic, triage patients, brew medical supplies and save lives.',
-    difficulty: 'hard',
-    tags: ['Medical', 'Roleplay', 'Brewing'],
-    steps: ['Background', 'Medical Ethics', 'Triage', 'Scenario'],
-    sections: [
-      {
-        title: 'Medical <span>Background</span>',
-        intro: 'We need qualified, dedicated professionals in our clinic.',
-        questions: [
-          { type: 'text', q: 'What draws you to the medical profession in GeoRoleplay specifically? Explain what the role means to you beyond just "getting paid".', hint: 'We want doctors who care about roleplay quality, not just the salary.' },
-          { type: 'radio', q: 'A severely injured player arrives at the clinic but you are already treating another patient. You cannot properly handle both simultaneously. What do you do?', options: ['Abandon the first patient — the new arrival seems worse.', 'Finish the first patient as quickly as possible, stabilise the newcomer.', 'Refuse the new patient entirely until the first is done.', 'Ask both to come back later.'], correct: 1 },
-        ]
-      },
-      {
-        title: 'Medical <span>Ethics</span>',
-        intro: 'A doctor\'s conduct must be above reproach.',
-        questions: [
-          { type: 'radio', q: 'A player who was recently arrested by police comes to your clinic for treatment. They confess to you (as their doctor) that they are planning another crime. What do you do?', options: ['Report it immediately to the police — public safety first.', 'Treat them and say nothing — patient confidentiality applies.', 'Refuse to treat them unless they cancel their plans.', 'Treat them and discretely warn police without specifics.'], correct: 3, hint: 'This tests your understanding of both medical ethics and civic duty.' },
-          { type: 'text', q: 'A wealthy player offers you double your salary to treat them before other waiting patients. How do you respond, and why? What principle guides you?', hint: 'Explain your reasoning fully.' },
-          { type: 'radio', q: 'You run out of medical supplies mid-treatment. The only way to get more quickly is to take from the city emergency stockpile without authorization. Do you:', options: ['Take them — the patient\'s life comes first.', 'Let the patient wait while you seek authorization.', 'Use what you have as best you can and request supplies urgently.', 'Send the patient to another doctor.'], correct: 2 },
-        ]
-      },
-      {
-        title: 'Triage & <span>Treatment</span>',
-        intro: 'Medical competence in high-pressure situations.',
-        questions: [
-          { type: 'text', q: 'Explain what "triage" means and describe how you would prioritize three simultaneous patients: (1) a player with minor injuries, (2) a player unconscious with critical injuries, (3) a player with moderate injuries but in intense pain.', hint: 'Use medical logic. Order of treatment matters.' },
-          { type: 'radio', q: 'After treating a patient, they demand to know what medication you gave them and insist it was wrong. They become aggressive. How do you handle it?', options: ['Argue back — you are the professional, not them.', 'Calmly explain your treatment decisions and offer to review together.', 'Call security immediately.', 'Give them whatever they ask for to calm them down.'], correct: 1 },
-        ]
-      },
-      {
-        title: 'Final <span>Scenario</span>',
-        intro: 'A mass casualty event test.',
-        questions: [
-          { type: 'scenario', scenario: 'A gas explosion has occurred in the city market. 6 players are reported injured. You are the only doctor currently online. Injured players are arriving at your clinic in a disorganized rush. Two are critical, three are moderate, one is minor but screaming loudly and demanding immediate attention.', q: 'Describe exactly how you take command of this situation. How do you organize the space, prioritize patients, manage the chaos, and communicate with other staff? What is your biggest concern throughout?', hint: 'Leadership, medical judgment, and roleplay quality will all be assessed here.' },
-        ]
-      }
-    ]
-  },
-  {
-    id: 'mechanic',
-    icon: '🔧',
-    name: 'Mechanic',
-    salary: '$120 / salary',
-    desc: 'Repair equipment, craft tools and keep the city\'s infrastructure running.',
-    difficulty: 'medium',
-    tags: ['Crafting', 'Repair', 'Technical'],
-    steps: ['Background', 'Technical Skills', 'Work Ethics'],
-    sections: [
-      {
-        title: 'Work <span>Background</span>',
-        intro: 'Tell us about your technical abilities.',
-        questions: [
-          { type: 'text', q: 'List three things you can craft or build in Minecraft that demonstrate technical skill. Explain why each is relevant to the mechanic role.', hint: 'Think practically. Redstone, tools, machinery.' },
-          { type: 'radio', q: 'A customer brings you a nearly broken tool and insists you repair it for free because "it should still be under warranty." The server has no warranty system. You:', options: ['Repair it for free to avoid conflict.', 'Explain politely that you charge for services and give them the price.', 'Refuse to serve them.', 'Charge double because they were rude.'], correct: 1 },
-        ]
-      },
-      {
-        title: 'Technical <span>Skills</span>',
-        intro: 'We expect our mechanics to be genuinely skilled.',
-        questions: [
-          { type: 'radio', q: 'A player brings you an enchanted diamond pickaxe that is at 10% durability. They want it repaired without losing enchantments. What is the correct method?', options: ['Use a crafting table to combine two pickaxes.', 'Use an anvil with another enchanted pickaxe or the Mending enchantment.', 'Use a grindstone to repair it.', 'It is impossible — tell them to get a new one.'], correct: 1, hint: 'Mechanics must know their craft.' },
-          { type: 'text', q: 'A city building has been damaged in a raid. The owner wants it repaired within 30 minutes. Describe exactly how you would assess the damage, gather materials, and execute the repairs efficiently.', hint: 'Show us your process and how you think under a deadline.' },
-          { type: 'radio', q: 'You discover that a competitor "mechanic" (another player) is offering repairs at half your price but using inferior materials that break quickly. How do you respond?', options: ['Lower your prices to match them.', 'Confront them aggressively in public chat.', 'Focus on quality, build your reputation, and let results speak.', 'Report them to admins for unfair competition.'], correct: 2 },
-        ]
-      },
-      {
-        title: 'Work <span>Ethics</span>',
-        intro: 'Character matters as much as skill.',
-        questions: [
-          { type: 'text', q: 'Describe a time (in any game or real life) when you had to do a job right even though no one was watching and you could have cut corners. What did you do?', hint: 'Honesty is valued. Fictional examples are acceptable.' },
-          { type: 'radio', q: 'You accept payment for a repair job, but realize halfway through that you don\'t have the right materials to complete it properly. You:', options: ['Finish it with wrong materials and hope they don\'t notice.', 'Refund them, explain the situation, and reschedule when you have materials.', 'Keep the payment and blame the damage on them.', 'Give the job to another player without telling the customer.'], correct: 1 },
-        ]
-      }
-    ]
-  },
-  {
-    id: 'chef',
-    icon: '👨‍🍳',
-    name: 'Chef / Cook',
-    salary: '$100 / salary',
-    desc: 'Run the city restaurant, cook meals for players and supply food to the community.',
-    difficulty: 'medium',
-    tags: ['Cooking', 'Service', 'Community'],
-    steps: ['Background', 'Service Quality', 'Kitchen Ethics'],
-    sections: [
-      {
-        title: 'Chef <span>Background</span>',
-        intro: 'The restaurant is the heart of the city.',
-        questions: [
-          { type: 'text', q: 'What does a good restaurant experience mean to you in a roleplay server? Describe your vision for the GeoRoleplay restaurant.', hint: 'Think about atmosphere, service quality, and community role.' },
-          { type: 'radio', q: 'During the dinner rush, you have 8 orders waiting and are behind. A player comes in with a complex special order. You:', options: ['Take the special order — the customer is always right.', 'Politely explain the wait and offer a simpler alternative.', 'Refuse all new orders until you\'re caught up.', 'Have another player take over so you can handle the special order.'], correct: 1 },
-        ]
-      },
-      {
-        title: 'Service <span>Quality</span>',
-        intro: 'Excellence in service separates great chefs from average ones.',
-        questions: [
-          { type: 'radio', q: 'A player complains loudly that their food was "terrible" even though you cooked it correctly. Other diners are watching. You:', options: ['Argue with them — you know the food was fine.', 'Apologize, offer to remake it, and handle it calmly and professionally.', 'Ask them to leave.', 'Ignore them and serve the next customer.'], correct: 1 },
-          { type: 'text', q: 'Describe a roleplay menu you would create for the GeoRoleplay restaurant. Name at least 5 dishes (using real Minecraft food items) and give each a creative menu name and description.', hint: 'Creativity and attention to detail matter here.' },
-          { type: 'radio', q: 'You run out of a key ingredient mid-service. You can substitute with an inferior alternative or tell customers that dish is unavailable tonight. You:', options: ['Use the substitute and don\'t mention it.', 'Tell customers honestly and suggest alternatives.', 'Close the restaurant for the night.', 'Charge the same price but give smaller portions.'], correct: 1 },
-        ]
-      },
-      {
-        title: 'Kitchen <span>Ethics</span>',
-        intro: 'Running a kitchen requires integrity.',
-        questions: [
-          { type: 'text', q: 'Another chef in the city is spreading rumors that your restaurant uses "bad ingredients." It\'s completely false. How do you respond, and what does your approach say about your character?', hint: 'There is no perfectly right answer — we want to understand how you think.' },
-          { type: 'radio', q: 'A player offers to pay you under the table to poison a rival player\'s food (not a real server mechanic, but in the roleplay context). You:', options: ['Do it — it\'s just roleplay and the money is good.', 'Refuse firmly. Your kitchen will not be used for harm.', 'Ask them to come back when there are fewer people watching.', 'Report it to admins immediately.'], correct: 1 },
-        ]
-      }
-    ]
-  },
-  {
-    id: 'taxidriver',
-    icon: '🚕',
-    name: 'Taxi Driver',
-    salary: '$110 / salary',
-    desc: 'Transport players across the city safely, efficiently and professionally.',
-    difficulty: 'medium',
-    tags: ['Transport', 'Service', 'Navigation'],
-    steps: ['Background', 'Service & Safety', 'Difficult Situations'],
-    sections: [
-      {
-        title: 'Driver <span>Background</span>',
-        intro: 'The taxi service is the lifeblood of the city\'s transport.',
-        questions: [
-          { type: 'text', q: 'Why do you want to be a taxi driver specifically, rather than another job? What unique value do you bring to this role?', hint: 'Answers like "easy money" will result in immediate rejection.' },
-          { type: 'radio', q: 'A passenger asks you to take them somewhere you don\'t know the route to. You:', options: ['Pretend you know and hope for the best.', 'Tell them honestly, ask for guidance, and get them there safely.', 'Refuse the fare.', 'Charge extra for the inconvenience of finding the route.'], correct: 1 },
-        ]
-      },
-      {
-        title: 'Service & <span>Safety</span>',
-        intro: 'Passenger safety and service quality are paramount.',
-        questions: [
-          { type: 'radio', q: 'During a fare, police issue an all-units alert that the roads in a certain district are dangerous due to ongoing criminal activity. Your passenger wants to go through that district. You:', options: ['Go through it anyway — the customer decides.', 'Explain the situation, offer a safer alternative route.', 'Refuse to move until it\'s safe — don\'t risk it at all.', 'Drop them off at the edge of the dangerous zone.'], correct: 1 },
-          { type: 'text', q: 'A passenger is being verbally abusive and rude throughout the entire ride, making it uncomfortable. You still have 5 minutes left to the destination. Describe exactly how you handle this from start to finish.', hint: 'Professional conduct under pressure is essential.' },
-          { type: 'radio', q: 'You witness another vehicle (player) run a red light at high speed and almost cause an accident. You:', options: ['Ignore it — not your responsibility.', 'Note their vehicle description and report it to police on your radio.', 'Confront them aggressively.', 'Post it in public chat to shame them.'], correct: 1 },
-        ]
-      },
-      {
-        title: 'Difficult <span>Situations</span>',
-        intro: 'Taxi drivers face unexpected challenges daily.',
-        questions: [
-          { type: 'scenario', scenario: 'Late at night you pick up a passenger who seems nervous and in a hurry. Mid-ride they confess they just witnessed a robbery and are fleeing the area, scared. They ask you to drive faster and not stop for anything.', q: 'What do you do? Do you comply? Do you contact police? How do you balance your passenger\'s safety with your civic duty? Walk through your decision process.', hint: 'This tests your judgment, empathy, and understanding of roleplay responsibility.' },
-        ]
-      }
-    ]
-  },
-  {
-    id: 'lumberjack',
-    icon: '🪵',
-    name: 'Lumberjack',
-    salary: '$90 / salary',
-    desc: 'Harvest timber, replant forests and supply the city with a steady flow of wood resources.',
-    difficulty: 'medium',
-    tags: ['Forestry', 'Resource', 'Environment'],
-    steps: ['Background', 'Forestry Knowledge', 'Work Ethics'],
-    sections: [
-      {
-        title: 'Work <span>Background</span>',
-        intro: 'Sustainable forestry keeps the city\'s supply chain alive.',
-        questions: [
-          { type: 'text', q: 'The lumberjack role is often overlooked. Why does it actually matter for GeoRoleplay\'s economy? Argue its importance in at least 4 sentences.', hint: 'We want people who understand the bigger picture.' },
-          { type: 'radio', q: 'You are contracted to supply 20 oak logs by the end of the day. Halfway through, you realize you won\'t have enough in the local forest. You:', options: ['Deliver what you have and say nothing.', 'Contact the client early, explain the situation, give an honest revised estimate.', 'Substitute with a different wood type without asking.', 'Cancel the contract entirely.'], correct: 1 },
-        ]
-      },
-      {
-        title: 'Forestry <span>Knowledge</span>',
-        intro: 'A responsible lumberjack protects the environment they work in.',
-        questions: [
-          { type: 'radio', q: 'You finish chopping a section of forest. What must you do before leaving?', options: ['Nothing — it\'s a game, trees grow back.', 'Plant saplings for every tree chopped to maintain the forest.', 'Burn the stumps to clear the area.', 'Mark the area as off-limits and find a new zone.'], correct: 1, hint: 'Sustainability is part of the job description.' },
-          { type: 'text', q: 'Another lumberjack is clear-cutting a protected forest zone without replanting. This is destroying the server\'s ecosystem. You discover this. What do you do?', hint: 'Think about community responsibility vs. individual conflict.' },
-          { type: 'radio', q: 'A building contractor offers you triple pay to harvest wood from a zone that is marked as protected / sacred in server lore. You:', options: ['Take the offer — triple pay is hard to refuse.', 'Decline. You do not harvest protected zones regardless of pay.', 'Negotiate — maybe half the zone is acceptable?', 'Ask an admin if it\'s technically allowed.'], correct: 1 },
-        ]
-      },
-      {
-        title: 'Work <span>Ethics</span>',
-        intro: 'The forest is a shared resource. Protect it.',
-        questions: [
-          { type: 'text', q: 'If you discovered that your entire work zone had been deforested overnight by a griefer, how would you respond? What steps would you take to restore it, and who would you involve?', hint: 'Problem-solving, initiative, and cooperation are all relevant here.' },
-          { type: 'radio', q: 'Wood prices have crashed because another lumberjack is flooding the market with cheap supplies. Your income drops significantly. You:', options: ['Quit the job — it\'s not worth it anymore.', 'Diversify — offer processed wood products, furniture, or premium timber.', 'Report the other lumberjack to admins for market manipulation.', 'Match their prices and take a loss to outlast them.'], correct: 1 },
-        ]
-      }
-    ]
-  }
+// ── WHEEL ──
+const canvas = document.getElementById('wheel');
+const ctx = canvas.getContext('2d');
+const W = canvas.width, H = canvas.height;
+const cx = W/2, cy = H/2, R = W/2 - 6;
+
+const segments = [
+  { label: 'Golden Key',   color: '#b8860b', text: '#fff', weight: 50 },
+  { label: 'Golden Key',   color: '#d4a017', text: '#000', weight: 40 },
+  { label: 'Crimson Key',  color: '#922b21', text: '#fff', weight: 25 },
+  { label: 'Golden Key',   color: '#b8860b', text: '#fff', weight: 40 },
+  { label: 'Amethyst Key', color: '#6c3483', text: '#fff', weight: 8  },
+  { label: 'Golden Key',   color: '#d4a017', text: '#000', weight: 40 },
+  { label: 'Crimson Key',  color: '#c0392b', text: '#fff', weight: 22 },
+  { label: 'Golden Key',   color: '#b8860b', text: '#fff', weight: 40 },
+  { label: 'Prime Key',    color: '#006064', text: '#00e5ff', weight: 3 },
+  { label: 'Golden Key',   color: '#d4a017', text: '#000', weight: 40 },
+  { label: 'Crimson Key',  color: '#922b21', text: '#fff', weight: 20 },
+  { label: 'Golden Key',   color: '#b8860b', text: '#fff', weight: 40 },
 ];
 
-// ── SCREEN NAVIGATION ─────────────────────────────────────────
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  window.scrollTo(0, 0);
-  updateAuthUI();
-  if (id === 'screen-jobs') renderJobsGrid();
-}
+const totalWeight = segments.reduce((a,s)=>a+s.weight,0);
+let segAngles = [];
+let acc = 0;
+segments.forEach(s=>{
+  const angle = (s.weight/totalWeight)*Math.PI*2;
+  segAngles.push({start:acc, end:acc+angle, ...s});
+  acc+=angle;
+});
 
-function updateAuthUI() {
-  const loggedIn = !!currentUser;
-  document.getElementById('user-status').classList.toggle('visible', loggedIn);
-  if (loggedIn) document.getElementById('user-display-name').textContent = currentUser.username;
+let rotation = 0;
 
-  const status2 = document.getElementById('user-status2');
-  if (status2) {
-    status2.style.display = loggedIn ? 'block' : 'none';
-    if (loggedIn) document.getElementById('user-display-name2').textContent = currentUser.username;
-  }
+function drawWheel(rot) {
+  ctx.clearRect(0,0,W,H);
+  segAngles.forEach(seg=>{
+    const s = seg.start+rot, e = seg.end+rot;
+    ctx.beginPath();
+    ctx.moveTo(cx,cy);
+    ctx.arc(cx,cy,R,s,e);
+    ctx.closePath();
+    ctx.fillStyle = seg.color;
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(0,0,0,0.3)';
+    ctx.lineWidth = 2;
+    ctx.stroke();
 
-  const navLink = document.getElementById('nav-signin-link');
-  if (navLink) {
-    navLink.textContent = loggedIn ? 'Sign Out' : 'Sign In';
-    navLink.onclick = loggedIn ? doSignOut : () => showScreen('screen-signin');
-  }
-
-  const alert = document.getElementById('not-logged-alert');
-  if (alert) alert.style.display = loggedIn ? 'none' : 'block';
-}
-
-// ── AUTH ──────────────────────────────────────────────────────
-function switchTab(tab) {
-  document.getElementById('tab-login').style.display = tab === 'login' ? 'block' : 'none';
-  document.getElementById('tab-register').style.display = tab === 'register' ? 'block' : 'none';
-  document.getElementById('tab-login-btn').className = 'btn ' + (tab === 'login' ? 'btn-primary' : 'btn-ghost');
-  document.getElementById('tab-reg-btn').className = 'btn ' + (tab === 'register' ? 'btn-primary' : 'btn-ghost');
-}
-
-function doLogin() {
-  const u = document.getElementById('login-username').value.trim();
-  const p = document.getElementById('login-password').value;
-  const err = document.getElementById('login-error');
-  err.classList.remove('show');
-
-  if (!u || !p) { err.textContent = 'Please enter your username and password.'; err.classList.add('show'); return; }
-  if (!users[u] || users[u].password !== p) { err.classList.add('show'); return; }
-
-  currentUser = { username: u, ...users[u] };
-  showScreen('screen-jobs');
-}
-
-function doRegister() {
-  const u = document.getElementById('reg-username').value.trim();
-  const d = document.getElementById('reg-discord').value.trim();
-  const p = document.getElementById('reg-password').value;
-  const c = document.getElementById('reg-confirm').value;
-  let valid = true;
-
-  document.querySelectorAll('.form-error').forEach(e => e.classList.remove('show'));
-
-  if (!u || u.length < 3) { document.getElementById('reg-error-user').classList.add('show'); valid = false; }
-  if (users[u]) { document.getElementById('reg-error-user').textContent = 'Username already taken.'; document.getElementById('reg-error-user').classList.add('show'); valid = false; }
-  if (!p || p.length < 6) { document.getElementById('reg-error-pass').classList.add('show'); valid = false; }
-  if (p !== c) { document.getElementById('reg-error-confirm').classList.add('show'); valid = false; }
-  if (!valid) return;
-
-  users[u] = { password: p, discord: d, createdAt: Date.now() };
-  localStorage.setItem('grp_users', JSON.stringify(users));
-  currentUser = { username: u, discord: d };
-  showScreen('screen-jobs');
-}
-
-function doSignOut() {
-  currentUser = null;
-  showScreen('screen-home');
-}
-
-// ── JOBS GRID ─────────────────────────────────────────────────
-function renderJobsGrid() {
-  const grid = document.getElementById('jobs-grid');
-  grid.innerHTML = JOBS.map(job => `
-    <div class="job-card" onclick="startApplication('${job.id}')">
-      <span class="job-icon">${job.icon}</span>
-      <h3>${job.name}</h3>
-      <p class="job-desc">${job.desc}</p>
-      <div style="margin-bottom:16px;">
-        ${job.tags.map(t => `<span class="tag">${t}</span>`).join('')}
-      </div>
-      <div class="job-meta">
-        <span class="job-salary">${job.salary}</span>
-        <span class="job-difficulty diff-${job.difficulty}">${job.difficulty === 'hard' ? '⚠ Difficult' : 'Medium'}</span>
-      </div>
-    </div>
-  `).join('');
-}
-
-// ── APPLICATION ───────────────────────────────────────────────
-function startApplication(jobId) {
-  if (!currentUser) { showScreen('screen-signin'); return; }
-
-  currentJob = JOBS.find(j => j.id === jobId);
-  currentStep = 0;
-  answers = {};
-
-  // Build sidebar
-  document.getElementById('sidebar-job-name').textContent = currentJob.name;
-  document.getElementById('sidebar-username').textContent = currentUser.username;
-
-  const steps = document.getElementById('progress-steps');
-  steps.innerHTML = currentJob.steps.map((s, i) =>
-    `<li id="step-${i}" class="${i === 0 ? 'active' : ''}">
-      <span class="step-num">${i+1}</span>${s}
-    </li>`
-  ).join('');
-
-  renderSection();
-  showScreen('screen-apply');
-}
-
-function renderSection() {
-  const section = currentJob.sections[currentStep];
-  const totalSteps = currentJob.sections.length;
-  const main = document.getElementById('apply-main');
-
-  let html = `
-    <div class="apply-section active">
-      <h2>${section.title}</h2>
-      <p>${section.intro}</p>
-  `;
-
-  section.questions.forEach((q, qi) => {
-    const key = `${currentStep}-${qi}`;
-    html += `<div class="question-block">`;
-    html += `<div class="q-number">Question ${qi + 1} of ${section.questions.length}</div>`;
-
-    if (q.type === 'scenario') {
-      html += `<div class="scenario-box">📋 <strong>Scenario:</strong> ${q.scenario}</div>`;
-    }
-
-    html += `<div class="q-text">${q.q}</div>`;
-    if (q.hint) html += `<div class="q-hint">↳ ${q.hint}</div>`;
-
-    if (q.type === 'radio') {
-      html += `<div class="q-options" id="opts-${key}">`;
-      q.options.forEach((opt, oi) => {
-        html += `
-          <label class="q-option" id="opt-${key}-${oi}" onclick="selectOption('${key}', ${oi}, ${q.options.length})">
-            <span class="q-dot"></span>${opt}
-          </label>`;
-      });
-      html += `</div>`;
-    } else {
-      const val = answers[key] || '';
-      html += `<textarea placeholder="Type your answer here..." rows="5" id="ans-${key}" oninput="answers['${key}']=this.value">${val}</textarea>`;
-    }
-
-    html += `<div class="form-error" id="err-${key}">This question requires an answer.</div>`;
-    html += `</div>`;
+    // Label
+    ctx.save();
+    ctx.translate(cx,cy);
+    ctx.rotate(s+(e-s)/2);
+    ctx.textAlign='right';
+    ctx.fillStyle = seg.text;
+    ctx.font = `bold 11px 'Exo 2', sans-serif`;
+    ctx.fillText(seg.label, R-10, 4);
+    ctx.restore();
   });
+  // Center circle
+  ctx.beginPath();
+  ctx.arc(cx,cy,26,0,Math.PI*2);
+  ctx.fillStyle = '#0a0a12';
+  ctx.fill();
+  ctx.strokeStyle = 'rgba(245,200,66,0.4)';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  ctx.fillStyle = '#f5c842';
+  ctx.font = `bold 18px 'Exo 2', sans-serif`;
+  ctx.textAlign='center';
+  ctx.fillText('★',cx,cy+6);
+}
 
-  const isLast = currentStep === totalSteps - 1;
-  const progress = ((currentStep) / totalSteps) * 100;
+drawWheel(0);
 
-  html += `
-    <div class="apply-nav">
-      ${currentStep > 0
-        ? `<button class="btn btn-ghost" onclick="prevSection()">← Back</button>`
-        : `<button class="btn btn-ghost" onclick="showScreen('screen-jobs')">← Cancel</button>`}
-      <div class="progress-bar-wrap">
-        <div class="progress-bar-fill" style="width:${progress}%"></div>
-      </div>
-      <button class="btn btn-primary" onclick="nextSection()">${isLast ? 'Submit Application →' : 'Continue →'}</button>
-    </div>
-  </div>`;
+// Spin logic
+const spinBtn = document.getElementById('spin-btn');
+const resultDiv = document.getElementById('spin-result');
+let spinning = false;
 
-  main.innerHTML = html;
+// Weighted random pick
+function pickSegment() {
+  const r = Math.random()*totalWeight;
+  let cum = 0;
+  for(const s of segments){
+    cum+=s.weight;
+    if(r<=cum) return s;
+  }
+  return segments[0];
+}
 
-  // Restore radio answers
-  section.questions.forEach((q, qi) => {
-    const key = `${currentStep}-${qi}`;
-    if (q.type === 'radio' && answers[key] !== undefined) {
-      const el = document.getElementById(`opt-${key}-${answers[key]}`);
-      if (el) el.classList.add('selected');
+spinBtn.addEventListener('click', ()=>{
+  if (spinning) return;
+  const stored = localStorage.getItem('lastSpin');
+  if (stored) {
+    const diff = Date.now() - parseInt(stored);
+    if (diff < 2*24*60*60*1000) {
+      const left = 2*24*60*60*1000 - diff;
+      resultDiv.textContent = '⏳ Come back in ' + formatMs(left);
+      resultDiv.style.color = '#e74c3c';
+      return;
     }
-  });
-}
-
-function selectOption(key, index, total) {
-  for (let i = 0; i < total; i++) {
-    const el = document.getElementById(`opt-${key}-${i}`);
-    if (el) el.classList.remove('selected');
   }
-  const sel = document.getElementById(`opt-${key}-${index}`);
-  if (sel) sel.classList.add('selected');
-  answers[key] = index;
-}
+  spinning = true;
+  spinBtn.disabled = true;
+  resultDiv.textContent = '';
 
-function validateSection() {
-  const section = currentJob.sections[currentStep];
-  let valid = true;
-  section.questions.forEach((q, qi) => {
-    const key = `${currentStep}-${qi}`;
-    const errEl = document.getElementById(`err-${key}`);
-    if (errEl) errEl.classList.remove('show');
+  const winner = pickSegment();
+  // Compute angle so winner stops at top (pointer)
+  const winMid = winner.start + (winner.end-winner.start)/2;
+  const targetRot = (Math.PI*2 - winMid) + Math.PI*12 + (Math.random()*0.3-0.15);
 
-    if (q.type === 'radio') {
-      if (answers[key] === undefined) {
-        if (errEl) errEl.classList.add('show');
-        valid = false;
-      }
-    } else {
-      const ta = document.getElementById(`ans-${key}`);
-      const val = ta ? ta.value.trim() : (answers[key] || '');
-      if (!val || val.length < 10) {
-        if (errEl) { errEl.textContent = 'Please provide a more detailed answer (minimum 10 characters).'; errEl.classList.add('show'); }
-        valid = false;
-      } else {
-        answers[key] = val;
-      }
+  const startRot = rotation;
+  const totalRot = targetRot + (Math.PI*20);
+  const duration = 5000;
+  const startTime = performance.now();
+
+  function easeOut(t){ return 1-Math.pow(1-t,4); }
+
+  function frame(now) {
+    const elapsed = now - startTime;
+    const t = Math.min(elapsed/duration, 1);
+    rotation = startRot + easeOut(t)*totalRot;
+    drawWheel(rotation % (Math.PI*2));
+    if (t < 1) { requestAnimationFrame(frame); }
+    else {
+      spinning = false;
+      spinBtn.disabled = false;
+      localStorage.setItem('lastSpin', Date.now().toString());
+      showResult(winner);
+      updateCountdown();
     }
-  });
-  return valid;
-}
-
-function nextSection() {
-  if (!validateSection()) {
-    document.querySelector('.form-error.show')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    return;
   }
+  requestAnimationFrame(frame);
+});
 
-  const totalSteps = currentJob.sections.length;
-
-  // Mark current step done
-  const stepEl = document.getElementById(`step-${currentStep}`);
-  if (stepEl) { stepEl.classList.remove('active'); stepEl.classList.add('done'); stepEl.querySelector('.step-num').textContent = '✓'; }
-
-  if (currentStep < totalSteps - 1) {
-    currentStep++;
-    const nextEl = document.getElementById(`step-${currentStep}`);
-    if (nextEl) nextEl.classList.add('active');
-    renderSection();
-    window.scrollTo(0,0);
-  } else {
-    submitApplication();
-  }
+function showResult(seg) {
+  const colors = { 'Golden Key':'#f5c842','Crimson Key':'#e74c3c','Amethyst Key':'#b97de3','Prime Key':'#00e5ff' };
+  resultDiv.style.color = colors[seg.label]||'#fff';
+  resultDiv.textContent = '🎉 You won: ' + seg.label + '!';
 }
 
-function prevSection() {
-  const stepEl = document.getElementById(`step-${currentStep}`);
-  if (stepEl) { stepEl.classList.remove('active', 'done'); stepEl.querySelector('.step-num').textContent = currentStep + 1; }
-  currentStep--;
-  const prevEl = document.getElementById(`step-${currentStep}`);
-  if (prevEl) { prevEl.classList.remove('done'); prevEl.querySelector('.step-num').textContent = currentStep + 1; prevEl.classList.add('active'); }
-  renderSection();
-  window.scrollTo(0,0);
+// ── COUNTDOWN ──
+function formatMs(ms) {
+  const totalSec = Math.floor(ms/1000);
+  const h = Math.floor(totalSec/3600);
+  const m = Math.floor((totalSec%3600)/60);
+  const s = totalSec%60;
+  return `${h}h ${m}m ${s}s`;
 }
 
-function submitApplication() {
-  const app = {
-    id: 'GEO-' + Math.random().toString(36).substr(2,6).toUpperCase(),
-    job: currentJob.id,
-    jobName: currentJob.name,
-    applicant: currentUser.username,
-    discord: currentUser.discord || '',
-    answers: { ...answers },
-    submittedAt: new Date().toISOString(),
-    status: 'pending'
-  };
-
-  applications.push(app);
-  localStorage.setItem('grp_apps', JSON.stringify(applications));
-
-  document.getElementById('app-id').textContent = 'REF: ' + app.id;
-  showScreen('screen-success');
+function updateCountdown() {
+  const el = document.getElementById('countdown');
+  const stored = localStorage.getItem('lastSpin');
+  if (!stored) { el.textContent = 'Ready!'; el.style.color='#f5c842'; return; }
+  const diff = Date.now() - parseInt(stored);
+  const wait = 2*24*60*60*1000;
+  if (diff >= wait) { el.textContent = 'Ready!'; el.style.color='#f5c842'; }
+  else { el.textContent = formatMs(wait - diff); el.style.color='#e74c3c'; }
 }
 
-// ── INIT ──────────────────────────────────────────────────────
-updateAuthUI();
-</script>
-
-<!-- AI ASSISTANT WIDGET -->
-<div id="ai-bubble">
-  <div id="ai-window">
-    <div id="ai-header">
-      <div class="ai-avatar">⬡</div>
-      <div class="ai-header-info">
-        <div class="ai-name">GEO ASSISTANT</div>
-        <div class="ai-status">● Online — Ready to help</div>
-      </div>
-      <button id="ai-close" onclick="toggleAI()">✕</button>
-    </div>
-    <div id="ai-messages"></div>
-    <div class="ai-chips" id="ai-chips"></div>
-    <div id="ai-input-row">
-      <input id="ai-input" type="text" placeholder="Ask me anything about jobs..." maxlength="400"
-        onkeydown="if(event.key==='Enter'){event.preventDefault();sendAI();}">
-      <button id="ai-send" onclick="sendAI()">➤</button>
-    </div>
-  </div>
-  <button id="ai-toggle" onclick="toggleAI()" title="GeoRoleplay AI Assistant">
-    ⬡
-    <span class="ai-ping"></span>
-  </button>
-</div>
-
-<script>
-let aiOpen = false;
-let aiHistory = [];
-let aiTyping = false;
-
-// ── FIREBASE / GOOGLE AUTH ─────────────────────────────────────
-// SETUP (free, 5 minutes):
-// 1. Go to https://console.firebase.google.com
-// 2. Create project → Add Web App → copy config below
-// 3. Authentication → Sign-in method → Enable "Google"
-// 4. Replace "YOUR_..." values below with your real config
-const FIREBASE_CONFIG = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
-};
-
-let firebaseReady = false;
-let firebaseAuth = null;
-
-try {
-  if (typeof firebase !== "undefined" && FIREBASE_CONFIG.apiKey !== "YOUR_API_KEY") {
-    firebase.initializeApp(FIREBASE_CONFIG);
-    firebaseAuth = firebase.auth();
-    firebaseReady = true;
-    firebaseAuth.onAuthStateChanged(user => {
-      if (user) {
-        const name = user.displayName || user.email.split("@")[0] || "Player";
-        currentUser = { username: name, email: user.email, googleUser: true };
-        updateAuthUI();
-        showScreen("screen-jobs");
-      }
-    });
-  }
-} catch(e) { console.log("Firebase not configured:", e.message); }
-
-async function doGoogleSignIn() {
-  if (!firebaseReady) {
-    document.getElementById("google-note-login").classList.add("show");
-    document.getElementById("google-note-reg").classList.add("show");
-    return;
-  }
-  try {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    await firebaseAuth.signInWithPopup(provider);
-  } catch(e) {
-    alert("Google Sign-In failed: " + (e.message || "Unknown error"));
-  }
-}
-
-// ── AI ────────────────────────────────────────────────────────
-const AI_SYSTEM = `You are GEO, the official AI career assistant for GeoRoleplay — a serious Minecraft 1.21.1 roleplay server. Be concise, professional and helpful. Use ** for bold. Max 3-4 sentences unless asked for detail.
-Jobs: Police($150,Hard), Doctor($140,Hard), Mechanic($120,Med), Chef($100,Med), TaxiDriver($110,Med), Lumberjack($90,Med).
-Salary every 30min. Action bonuses per job. Plugin needs Vault+EssentialsX. Applications test roleplay maturity not Minecraft skill.`;
-
-const QUICK_CHIPS = ["Which job pays most?","How hard is Police?","Tips for my application?","How does salary work?","Which job fits me?"];
-
-function toggleAI() {
-  aiOpen = !aiOpen;
-  document.getElementById("ai-window").classList.toggle("open", aiOpen);
-  if (aiOpen && aiHistory.length === 0) {
-    setTimeout(() => {
-      addAIMsg("ai", "Welcome to **GeoRoleplay**! I am **GEO**, your career assistant. I can help you choose the right job, prepare your application, or answer anything about the server. What would you like to know?");
-      renderChips(QUICK_CHIPS);
-    }, 200);
-  }
-  if (aiOpen) setTimeout(() => document.getElementById("ai-input").focus(), 300);
-}
-
-function renderChips(chips) {
-  document.getElementById("ai-chips").innerHTML = chips.map(c =>
-    "<button class=\"ai-chip\" onclick=\"chipSend(this.dataset.t)\" data-t=\"" + c + "\">" + c + "</button>").join("");
-}
-
-function chipSend(text) {
-  document.getElementById("ai-chips").innerHTML = "";
-  sendAIMessage(text);
-}
-
-function addAIMsg(role, text) {
-  const container = document.getElementById("ai-messages");
-  const div = document.createElement("div");
-  div.className = "ai-msg " + role;
-  const formatted = text.replace(/\*\*(.*?)\*\*/g, "<strong style=\"color:var(--gold-light)\">$1</strong>").replace(/\n/g, "<br>");
-  div.innerHTML = "<div class=\"ai-msg-label\">" + (role === "ai" ? "GEO Assistant" : (currentUser && currentUser.username ? currentUser.username : "You")) + "</div><div class=\"ai-msg-bubble\">" + formatted + "</div>";
-  container.appendChild(div);
-  container.scrollTop = container.scrollHeight;
-}
-
-function showTyping() {
-  const c = document.getElementById("ai-messages");
-  const d = document.createElement("div");
-  d.className = "ai-msg ai"; d.id = "ai-typing-ind";
-  d.innerHTML = "<div class=\"ai-msg-label\">GEO Assistant</div><div class=\"ai-typing\"><span></span><span></span><span></span></div>";
-  c.appendChild(d); c.scrollTop = c.scrollHeight;
-}
-function removeTyping() { const el = document.getElementById("ai-typing-ind"); if (el) el.remove(); }
-
-async function sendAI() {
-  const inp = document.getElementById("ai-input");
-  const text = inp.value.trim();
-  if (!text || aiTyping) return;
-  inp.value = "";
-  sendAIMessage(text);
-}
-
-async function sendAIMessage(text) {
-  if (aiTyping) return;
-  document.getElementById("ai-chips").innerHTML = "";
-  addAIMsg("user", text);
-  aiHistory.push({ role: "user", content: text });
-  aiTyping = true;
-  document.getElementById("ai-send").disabled = true;
-  showTyping();
-
-  let reply = null;
-  try {
-    const proxyUrl = "https://corsproxy.io/?" + encodeURIComponent("https://api.anthropic.com/v1/messages");
-    const res = await fetch(proxyUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ model: "claude-sonnet-4-20250514", max_tokens: 800, system: AI_SYSTEM, messages: aiHistory })
-    });
-    if (res.ok) {
-      const data = await res.json();
-      reply = data.content && data.content[0] ? data.content[0].text : null;
-    }
-  } catch(e) {}
-
-  removeTyping();
-  if (!reply) reply = getOfflineReply(text);
-  aiHistory.push({ role: "assistant", content: reply });
-  addAIMsg("ai", reply);
-
-  const lower = text.toLowerCase();
-  if (lower.includes("police")) renderChips(["Police tips","Police vs Doctor?","Police bonuses?"]);
-  else if (lower.includes("doctor") || lower.includes("medic")) renderChips(["Doctor tips","Is Doctor hard?","Doctor vs Police?"]);
-  else if (lower.includes("salary") || lower.includes("pay") || lower.includes("earn")) renderChips(["Highest paying job?","Action bonuses?","How often is salary?"]);
-  else if (lower.includes("tip") || lower.includes("help") || lower.includes("applic")) renderChips(["What do staff look for?","How to write good answers?","Common mistakes?"]);
-  else renderChips(["Tell me about Police","Tell me about Doctor","Which job fits me?"]);
-
-  aiTyping = false;
-  document.getElementById("ai-send").disabled = false;
-  document.getElementById("ai-input").focus();
-}
-
-function getOfflineReply(text) {
-  const t = text.toLowerCase();
-  if (t.includes("police") && (t.includes("tip") || t.includes("applic") || t.includes("help")))
-    return "For the **Police application**, focus on ethical judgment above all. In scenario questions walk through decisions step by step, always showing **de-escalation before force**. The Use of Force section is hardest — think like a real officer, not a fighter.";
-  if (t.includes("police"))
-    return "**Police Officer** earns **$150/salary** — the highest on the server. Hard difficulty application with ethics, use of force and a full emergency scenario. You also earn **+$10** bonus per hostile mob defeated while on duty.";
-  if (t.includes("doctor") || t.includes("medic"))
-    return "**Doctor / Medic** earns **$140/salary** with a Hard application. Expect tough ethics dilemmas like patient confidentiality vs. public safety. The scenario test is a mass casualty event. Earn **+$20** each time you heal another player.";
-  if (t.includes("mechanic"))
-    return "**Mechanic** earns **$120/salary** with a Medium application. Questions cover technical knowledge (anvil repairs, crafting) and work ethics. You earn **+$15** per repair and **+$3** per crafted item.";
-  if (t.includes("chef") || t.includes("cook"))
-    return "**Chef / Cook** earns **$100/salary**. The application asks you to design a roleplay menu and tests handling of difficult customers. You earn **+$5** for every food item cooked in a furnace.";
-  if (t.includes("taxi"))
-    return "**Taxi Driver** earns **$110/salary** and **+$15** per passenger transported. The application focuses on passenger safety, civic duty and professionalism under pressure.";
-  if (t.includes("lumberjack") || t.includes("lumber"))
-    return "**Lumberjack** earns **$90/salary** — the most beginner-friendly job. You earn **+$2 per log** chopped. The application emphasizes sustainability: you must replant trees and never harvest protected zones.";
-  if (t.includes("salary") || t.includes("pay") || t.includes("money") || t.includes("earn"))
-    return "Salaries paid every **30 minutes** online. Ranking: **Police $150 → Doctor $140 → Mechanic $120 → Taxi $110 → Chef $100 → Lumberjack $90**. Each job also has **action bonuses** paid instantly for doing job-specific tasks.";
-  if (t.includes("hard") || t.includes("difficult") || t.includes("easy"))
-    return "**Police** and **Doctor** are Hard-tier with 9-10 questions including scenario responses and ethical dilemmas. **Mechanic, Chef, Taxi** and **Lumberjack** are Medium — still need thoughtful written answers but fewer scenario questions.";
-  if (t.includes("which") || t.includes("best") || t.includes("recommend") || t.includes("fit") || t.includes("suit"))
-    return "Depends on your style! **Combat & authority** → Police. **Helping others** → Doctor. **Building & crafting** → Mechanic. **Cooking & social RP** → Chef. **Transport & exploration** → Taxi Driver. **Resource gathering** → Lumberjack. Which sounds most like you?";
-  if (t.includes("google") || t.includes("sign in") || t.includes("firebase"))
-    return "**Google Sign-In** needs a free Firebase project. Go to **console.firebase.google.com**, create a project, enable Google Auth, and paste your config into the HTML file. The username/password login works immediately without any extra setup!";
-  if (t.includes("tip") || t.includes("advice") || t.includes("pass"))
-    return "Top tips: **1)** Write 3+ sentences for open questions — short answers are rejected. **2)** For multiple choice, think what a real professional would do ethically. **3)** Be specific and honest. **4)** Reviewers want **roleplay maturity**, not Minecraft hours.";
-  return "I am **GEO**, your GeoRoleplay career assistant. I can answer questions about any of the 6 jobs, application tips, salaries, or how the server plugin works. What would you like to know?";
-}
+updateCountdown();
+setInterval(updateCountdown, 1000);
 </script>
 </body>
 </html>
